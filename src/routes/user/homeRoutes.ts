@@ -1,16 +1,13 @@
 import express, {Application,Router,Request,Response,NextFunction} from 'express';
-import {login} from '../../controller/user/homeController';
+import {home,login,register} from '../../controller/user/home/homeController';
+import {doLogin} from '../../controller/user/home/homeRestController';
 
 const router = Router();
 
-router.get(('/'),(req:Request,res:Response)=>{
-  res.render('user/home/home')
-})
+router.get(('/'),home)
+router.get('/login',login)
+router.get('/register',register);
 
-router.get('/login',(req:Request, res:Response)=>{
-  res.render('user/home/login')
-})
-
-router.post('/login',login);
+router.post('/login',doLogin);
 
 export default router;
