@@ -29,3 +29,7 @@ login_btn.addEventListener('click',async ()=>{
     }
   })
 })
+
+Kakao.Auth.authorize({
+  redirectUri: '${REDIRECT_URI}',
+});

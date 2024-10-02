@@ -1,3 +1,6 @@
+ERD
+https://www.erdcloud.com/d/qk3BTwxEhKcm3WGug
+
 1. typescript init
 
 tsc --init

@@ -1,0 +1,30 @@
+extends ../include/head
+
+block content 
+  .container.w-50.mt-5
+    form.row.g-3.regist_form
+      .col-md-6
+        label(for="inputEmail4").form-label 이름
+        input#inputEmail4.form-control(type="text",name="name")
+      .col-md-6
+        label(for="inputEmail4").form-label 휴대폰번호
+        input#inputEmail4.form-control(type="text",name="mobile_number")
+      .col-md-12
+        label(for="inputEmail4").form-label 이메일
+        input#inputEmail4.form-control(type="email",name="email")
+      .col-md-6
+        label(for="inputPassword4").form-label 비밀번호
+        input#inputPassword4.form-control(type="password",name="password")
+      .col-md-6
+        label(for="inputPassword4").form-label 비밀번호 확인
+        input#inputPassword4.form-control(type="password",name="check_password")
+      .col-12
+        label(for="inputAddress").form-label 주소
+        input#inputAddress.form-control(type="text",name="address")
+      .col-12
+        label(for="inputAddress2").form-label 상세주소
+        input#inputAddress2.form-control(type="text", name="address_detail")
+      .col-12
+        button.btn.btn-primary.regist_btn(type="button") Sign in
+  script(src="/javascript/user/home/register.js") 
+  script(src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js") 
