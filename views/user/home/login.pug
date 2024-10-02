@@ -1,0 +1,18 @@
+extends ../include/head
+
+block content 
+  .container.w-50
+    form.m-5
+      .mb-3
+        label(for="exampleInputEmail1", class="form-label") 이메일
+        input#exampleInputEmail1.form-control(type="email", aria-describedby="emailHelp")
+        //- #emailHelp.form-text We'll never share your email with anyone else.
+      .mb-3
+        label(for="exampleInputPassword1", class="form-label") 비밀번호
+        input#exampleInputPassword1.form-control(type="password")
+      .mb-3.form-check
+        //- input#exampleCheck1.form-check-input(type="checkbox")
+        //- label.form-check-label(for="exampleCheck1") Check me out
+      button.btn.btn-primary#login_btn(type="button") 로그인
+      button.btn.btn-primary#register_btn.ms-2(type="button", onclick="location.href='/register'") 회원가입
+  script(src="/javascript/user/home/login.js") 
