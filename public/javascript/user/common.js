@@ -1,10 +1,18 @@
 /**
+ * 정규식
+ */
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const phoneRegex = /^01[016789]-?\d{3,4}-?\d{4}$/;
+
+const dim = document.querySelector('.dim');
+
+/**
  * 커스텀 얼럿
  * @param {Number} text 
  */
 function customAlert(text){
   const dangerAlert = document.querySelector('#custom_alert');
-
+  dim.style.display = 'block'
   dangerAlert.querySelector('.modal-body p').innerText = text;
   dangerAlert.style.display = 'block'
   requestAnimationFrame(()=>{
@@ -13,6 +21,7 @@ function customAlert(text){
 
   dangerAlert.querySelectorAll('.modal_close').forEach((el)=>{
     el.addEventListener('click',()=>{
+      dim.style.display = 'none'
       el.closest('.modal').classList.remove('show');
       el.closest('.modal').style.display = 'none'
     })
@@ -27,7 +36,7 @@ function customAlert(text){
  */
 function customAlert(text,focus){
   const dangerAlert = document.querySelector('#custom_alert');
-
+  dim.style.display = 'block'
   dangerAlert.querySelector('.modal-body p').innerText = text;
   dangerAlert.style.display = 'block'
   requestAnimationFrame(()=>{
@@ -36,6 +45,7 @@ function customAlert(text,focus){
 
   dangerAlert.querySelectorAll('.modal_close').forEach((el)=>{
     el.addEventListener('click',()=>{
+      dim.style.display = 'none'
       focus.focus();
       el.closest('.modal').classList.remove('show');
       el.closest('.modal').style.display = 'none'
@@ -49,15 +59,17 @@ function customAlert(text,focus){
  */
 function customSuccessAlert(text,href){
   const dangerAlert = document.querySelector('#custom_alert');
-
+  dim.style.display = 'block'
   dangerAlert.querySelector('.modal-body p').innerText = text;
   dangerAlert.style.display = 'block'
   requestAnimationFrame(()=>{
+    dim.style.display = 'none'
     dangerAlert.classList.add('show');
   })
 
   dangerAlert.querySelectorAll('.modal_close').forEach((el)=>{
     el.addEventListener('click',()=>{
+      dim.style.display = 'none'
       location.replace(href);
     })
   })
