@@ -9,16 +9,51 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.register = exports.login = exports.home = void 0;
-const home = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.render('user/home/home');
-});
-exports.home = home;
-const login = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.render('user/home/login');
-});
-exports.login = login;
-const register = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    res.render('user/home/register');
-});
-exports.register = register;
+exports.process = exports.view = void 0;
+const homeService_1 = require("../../../service/user/home/homeService");
+/**
+ * 뷰 처리 컨트롤러
+ */
+exports.view = {
+    /**
+     * 메인화면
+     * @param req
+     * @param res
+     */
+    home: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        res.render('user/home/home');
+    }),
+    /**
+     * 로그인 화면
+     * @param req
+     * @param res
+     */
+    login: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        res.render('user/home/login');
+    }),
+    /**
+     * 회원가입 화면
+     * @param req
+     * @param res
+     */
+    register: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        res.render('user/home/register');
+    })
+};
+exports.process = {
+    login: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    }),
+    register: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        let resultObj = { result: false };
+        try {
+            resultObj = yield homeService_1.homeService.register(req);
+        }
+        catch (error) {
+            resultObj.result = false;
+            resultObj.errMessage = error instanceof Error ? error.message : String(error);
+        }
+        finally {
+            res.send(resultObj);
+        }
+    })
+};

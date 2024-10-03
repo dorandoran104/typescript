@@ -8,7 +8,7 @@ const dim = document.querySelector('.dim');
 
 /**
  * 커스텀 얼럿
- * @param {Number} text 
+ * @param {string} text 
  */
 function customAlert(text){
   const dangerAlert = document.querySelector('#custom_alert');
@@ -31,7 +31,7 @@ function customAlert(text){
 
 /**
  * 커스텀 얼럿(포커스용)
- * @param {Number} text 
+ * @param {string} text 
  * @param {Node} focus 
  */
 function customAlert(text,focus){
@@ -46,7 +46,8 @@ function customAlert(text,focus){
   dangerAlert.querySelectorAll('.modal_close').forEach((el)=>{
     el.addEventListener('click',()=>{
       dim.style.display = 'none'
-      focus.focus();
+      if(focus != null && focus != '')
+        focus.focus();
       el.closest('.modal').classList.remove('show');
       el.closest('.modal').style.display = 'none'
     })
@@ -56,6 +57,7 @@ function customAlert(text,focus){
 /**
  * 커스텀 얼럿
  * @param {Number} text 
+ * @param {String} href
  */
 function customSuccessAlert(text,href){
   const dangerAlert = document.querySelector('#custom_alert');
@@ -75,6 +77,8 @@ function customSuccessAlert(text,href){
   })
 }
 
+
+
 /**
  * 커스텀 컨펌
  * @param {String} text 
@@ -89,16 +93,20 @@ function customConfirm(text,callback){
     confirmAlert.classList.add('show');
   })
 
-  confirmAlert.querySelectorAll('.modal_close').forEach((el)=>{
-    el.addEventListener('click',()=>{
+  const closeBtn = document.querySelectorAll('modal_close');
+  closeBtn.forEach((el)=>{
+    el.onclick = ()=>{
       closeModal();
-    })
+    }
   })
 
-  confirmAlert.querySelector('.modal_confirm').addEventListener('click',()=>{
-    closeModal();
-    callback();
-  })
+  const confirmBtn = document.querySelector('.modal_confirm');
+  confirmBtn.onclick = ()=>{
+    if(callback instanceof Function){
+      closeModal();
+      callback();
+    }
+  }
 
   function closeModal(){
     confirmAlert.classList.remove('show');
