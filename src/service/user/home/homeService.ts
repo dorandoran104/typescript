@@ -1,7 +1,7 @@
 import { Request,Response } from "express";
-import { Member } from "../../../controller/user/Member";
+import { Member } from "../../../interface/Member";
 import { RandomUtil } from '../../../util/RandomUtil';
-import { memberModel } from "../../../module/memberModule";
+import { memberModel } from "../../../models/memberModel";
 import { ResultObject } from "../../../interface/ResultObject";
 import { BcryptUtil } from "../../../util/BcryptUtil";
 import { JWTUtil } from "../../../util/JWTUtil";
@@ -60,7 +60,7 @@ export const homeService = {
       }
     }
 
-    const encode = BcryptUtil.createBycrpt(body.password);
+    const encode = BcryptUtil.createBcrypt(body.password);
     body.password = encode;
     console.log(body.code);
     resultObj = await memberModel.insert(body);
@@ -80,7 +80,7 @@ export const homeService = {
       return resultObj;
     }
 
-    const comparePassword = await BcryptUtil.compareBycrypt(body.password,member.password);
+    const comparePassword = await BcryptUtil.compareBcrypt(body.password,member.password);
     if(!comparePassword){
       resultObj.errMessage = '아이디 혹은 비밀번호를 확인해 주세요';
       return resultObj;

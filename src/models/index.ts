@@ -7,12 +7,12 @@ import { ResultObject } from '../interface/ResultObject';
  * @param paramArr 파라미터
  * @returns 
  */
-export const connect = async (sql:string,paramArr:Array<any>)=>{
+export const connect = async (sql:string)=>{
   let resultObj:ResultObject = {result : false};
 
   return new Promise<ResultObject>((resolve,reject)=>{
     console.log(sql);
-    db.query(sql,paramArr,(err,data)=>{
+    db.query(sql,(err,data)=>{
       if(err){
         console.error(err.message);
         resultObj.result = false;
@@ -27,3 +27,4 @@ export const connect = async (sql:string,paramArr:Array<any>)=>{
     })
   })
 }
+

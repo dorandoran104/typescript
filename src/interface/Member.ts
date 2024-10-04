@@ -1,5 +1,5 @@
 export interface Member {
-  idx : Number
+  idx : number
   ,code : string
   ,name : string
   ,mobile_number : string
@@ -7,6 +7,7 @@ export interface Member {
   ,password : string
   ,address : string
   ,address_detail : string
-  ,access_token : string
-  ,refresh_token : string
+  ,access_token ?: string
+  ,refresh_token ?: string
+  ,[key:string] : any;
 }
