@@ -1,5 +1,5 @@
 import express, {Application,Router,Request,Response,NextFunction} from 'express';
-import {view,process} from '../../controller/user/home/homeController';
+import { view, process } from '../../controller/user/home/homeController';
 
 const router = Router();
 

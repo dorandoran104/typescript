@@ -1,5 +1,5 @@
 import { Request,Response } from "express";
-import { Member } from "../../../interface/Member";
+import { Member } from "../../../controller/user/Member";
 import { RandomUtil } from '../../../util/RandomUtil';
 import { memberModel } from "../../../module/memberModule";
 import { ResultObject } from "../../../interface/ResultObject";
@@ -88,7 +88,7 @@ export const homeService = {
     resultObj.result = comparePassword;
     if(resultObj.result){
       //jwt토큰 생성
-      const access_token = JWTUtil.createMemberToken(member,'1s');
+      const access_token = JWTUtil.createMemberToken(member,'1h');
       const refresh_token = JWTUtil.createMemberToken(member,'5d');
       member.access_token = access_token;
       member.refresh_token = refresh_token;

@@ -1,5 +1,5 @@
 import {connect} from './index';
-import { Member } from '../interface/Member';
+import { Member } from '../controller/user/Member';
 import { ResultObject } from '../interface/ResultObject';
 
 export const memberModel = {
@@ -65,6 +65,33 @@ export const memberModel = {
     return resultObj.data[0];
   },
 
+  /**
+   * 코드로 회원 조회
+   * @param code 
+   * @returns 
+   */
+  selectCode : async (code:string)=>{
+    const sql = `
+      SELECT
+        idx
+        ,code
+        ,email
+        ,password
+        ,access_token
+        ,refresh_token
+      FROM member
+      WHERE code = ?
+    `
+    const arr = [code];
+    const resultObj:ResultObject = await connect(sql,arr);
+    return resultObj.data[0];
+  },
+
+  /**
+   * 토큰 업데이트
+   * @param member 
+   * @returns 
+   */
   updateToken : async (member:Member)=>{
     const sql = `
       UPDATE member SET
