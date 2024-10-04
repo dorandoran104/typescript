@@ -2,10 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const homeController_1 = require("../../controller/user/home/homeController");
-const homeRestController_1 = require("../../controller/user/home/homeRestController");
 const router = (0, express_1.Router)();
-router.get(('/'), homeController_1.home);
-router.get('/login', homeController_1.login);
-router.get('/register', homeController_1.register);
-router.post('/login', homeRestController_1.doLogin);
+router.get(('/'), homeController_1.view.home);
+router.get('/login', homeController_1.view.login);
+router.get('/register', homeController_1.view.register);
+router.post('/login', homeController_1.process.login);
+router.post('/register', homeController_1.process.register);
 exports.default = router;

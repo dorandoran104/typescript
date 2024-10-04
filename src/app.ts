@@ -1,17 +1,21 @@
 import express from 'express';
 import path from 'path';
 import os from 'os'
+import cookieParser from 'cookie-parser';
 
 import HomeRouter from './routes/user/homeRoutes'
+import CartRouter from './routes/user/CartRoutes';
 
 const port:Number = 3000;
 const app = express();
 
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.use('/',HomeRouter);
+app.use('/cart',CartRouter);
 
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'pug');
