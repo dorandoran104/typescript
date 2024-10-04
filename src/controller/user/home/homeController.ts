@@ -35,11 +35,19 @@ export const view = {
   }
 }
 
+/**
+ * API
+ */
 export const process = {
+  /**
+   * 로그인
+   * @param req 
+   * @param res 
+   */
   login : async (req:Request, res:Response)=>{
     let resultObj:ResultObject = {result : false};
     try {
-      resultObj = await homeService.login(req);
+      resultObj = await homeService.login(req,res);
     } catch (error) {
       console.log(error);
       resultObj.result = false;
@@ -49,6 +57,11 @@ export const process = {
     }
     
   },
+  /**
+   * 회원가입
+   * @param req 
+   * @param res 
+   */
   register : async (req:Request, res:Response)=>{
     let resultObj:ResultObject = {result : false};
     try {

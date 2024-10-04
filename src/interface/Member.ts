@@ -7,4 +7,6 @@ export interface Member {
   ,password : string
   ,address : string
   ,address_detail : string
+  ,access_token : string
+  ,refresh_token : string
 }

@@ -1,4 +1,4 @@
-import db from '../config/mybatisConfig';
+import db from '../config/mysqlConfig';
 import { ResultObject } from '../interface/ResultObject';
 
 /**

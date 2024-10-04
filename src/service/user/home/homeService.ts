@@ -4,11 +4,17 @@ import { RandomUtil } from '../../../util/RandomUtil';
 import { memberModel } from "../../../module/memberModule";
 import { ResultObject } from "../../../interface/ResultObject";
 import { BcryptUtil } from "../../../util/BcryptUtil";
+import { JWTUtil } from "../../../util/JWTUtil";
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const phoneRegex = /^01[016789]-?\d{3,4}-?\d{4}$/;
 
 export const homeService = {
+  /**
+   * 회원가입
+   * @param req 
+   * @returns 
+   */
   register : async (req:Request) => {
     
     let resultObj:ResultObject = {result :false};
@@ -60,8 +66,12 @@ export const homeService = {
     resultObj = await memberModel.insert(body);
     return resultObj;
   },
-
-  login : async (req:Request)=>{
+  /**
+   * 로그인
+   * @param req 
+   * @returns 
+   */
+  login : async (req:Request,res:Response)=>{
     let resultObj:ResultObject = {result : false};
     const body:Member = req.body;
     const member:Member = await memberModel.select(body);
@@ -75,8 +85,18 @@ export const homeService = {
       resultObj.errMessage = '아이디 혹은 비밀번호를 확인해 주세요';
       return resultObj;
     }
-
     resultObj.result = comparePassword;
+    if(resultObj.result){
+      //jwt토큰 생성
+      const access_token = JWTUtil.createMemberToken(member,'1s');
+      const refresh_token = JWTUtil.createMemberToken(member,'5d');
+      member.access_token = access_token;
+      member.refresh_token = refresh_token;
+      if((await memberModel.updateToken(member)).result){
+        res.cookie('access_token',access_token);
+        res.cookie('refresh_token',refresh_token);
+      }
+    }
     return resultObj;
   }
 

@@ -3,6 +3,11 @@ import { Member } from '../interface/Member';
 import { ResultObject } from '../interface/ResultObject';
 
 export const memberModel = {
+  /**
+   * 코드 중복 확인
+   * @param code 
+   * @returns 
+   */
   codeExists : async (code:string)=>{
     const sql = `
       SELECT
@@ -16,8 +21,14 @@ export const memberModel = {
       throw new Error(resultObj.errMessage || 'QUERY ERROR');
     }
     return resultObj.data[0].count;
-  }
-  ,insert : async (body:Member)=>{
+  },
+  
+  /**
+   * 회원 insert
+   * @param body 
+   * @returns 
+   */
+  insert : async (member:Member)=>{
     const sql = `
       INSERT INTO member(
         code
@@ -29,21 +40,40 @@ export const memberModel = {
         ,mobile_number
       )VALUES(?,?,?,?,?,?,?)
     `;
-    const arr = [body.code,body.name,body.email,body.password,body.address,body.address_detail,body.mobile_number];
+    const arr = [member.code,member.name,member.email,member.password,member.address,member.address_detail,member.mobile_number];
     const resultObj:ResultObject = await connect(sql,arr);
     return resultObj;
   },
-  select : async (body:Member)=>{
+
+  /**
+   * 회원 조회
+   * @param member 
+   * @returns 
+   */
+  select : async (member:Member)=>{
     const sql = `
       SELECT
-        email
+        idx 
+        ,code
+        ,email
         ,password
       FROM member
       WHERE email = ?
     `
-    const arr = [body.email];
+    const arr = [member.email];
     const resultObj:ResultObject = await connect(sql,arr);
-
     return resultObj.data[0];
+  },
+
+  updateToken : async (member:Member)=>{
+    const sql = `
+      UPDATE member SET
+        access_token = ?
+        ,refresh_token = ?
+      WHERE idx = ?
+    `
+    const arr = [member.access_token,member.refresh_token,member.idx];
+    const resultObj:ResultObject = await connect(sql,arr);
+    return resultObj;
   }
 }
