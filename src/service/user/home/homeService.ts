@@ -3,6 +3,7 @@ import { Member } from "../../../interface/Member";
 import { RandomUtil } from '../../../util/RandomUtil';
 import { memberModel } from "../../../module/memberModule";
 import { ResultObject } from "../../../interface/ResultObject";
+import { BcryptUtil } from "../../../util/BcryptUtil";
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const phoneRegex = /^01[016789]-?\d{3,4}-?\d{4}$/;
@@ -52,8 +53,30 @@ export const homeService = {
         body.code = randomCode;
       }
     }
+
+    const encode = BcryptUtil.createBycrpt(body.password);
+    body.password = encode;
     console.log(body.code);
     resultObj = await memberModel.insert(body);
+    return resultObj;
+  },
+
+  login : async (req:Request)=>{
+    let resultObj:ResultObject = {result : false};
+    const body:Member = req.body;
+    const member:Member = await memberModel.select(body);
+    if(member == null){
+      resultObj.errMessage = '아이디 혹은 비밀번호를 확인해 주세요';
+      return resultObj;
+    }
+
+    const comparePassword = await BcryptUtil.compareBycrypt(body.password,member.password);
+    if(!comparePassword){
+      resultObj.errMessage = '아이디 혹은 비밀번호를 확인해 주세요';
+      return resultObj;
+    }
+
+    resultObj.result = comparePassword;
     return resultObj;
   }
 

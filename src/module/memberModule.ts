@@ -29,9 +29,21 @@ export const memberModel = {
         ,mobile_number
       )VALUES(?,?,?,?,?,?,?)
     `;
-    const arr = ['1'];
-    const resultObj = await connect(sql,arr);
-
+    const arr = [body.code,body.name,body.email,body.password,body.address,body.address_detail,body.mobile_number];
+    const resultObj:ResultObject = await connect(sql,arr);
     return resultObj;
+  },
+  select : async (body:Member)=>{
+    const sql = `
+      SELECT
+        email
+        ,password
+      FROM member
+      WHERE email = ?
+    `
+    const arr = [body.email];
+    const resultObj:ResultObject = await connect(sql,arr);
+
+    return resultObj.data[0];
   }
 }

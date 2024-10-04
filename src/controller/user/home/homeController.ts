@@ -37,6 +37,16 @@ export const view = {
 
 export const process = {
   login : async (req:Request, res:Response)=>{
+    let resultObj:ResultObject = {result : false};
+    try {
+      resultObj = await homeService.login(req);
+    } catch (error) {
+      console.log(error);
+      resultObj.result = false;
+      resultObj.errMessage = error instanceof Error ? error.message : String(error);
+    } finally{
+      res.send(resultObj);
+    }
     
   },
   register : async (req:Request, res:Response)=>{
@@ -44,6 +54,7 @@ export const process = {
     try {
       resultObj = await homeService.register(req);
     } catch (error) {
+      console.log(error);
       resultObj.result = false;
       resultObj.errMessage = error instanceof Error ? error.message : String(error);
     }finally{

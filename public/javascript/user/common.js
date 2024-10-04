@@ -60,7 +60,7 @@ function customAlert(text,focus){
  * @param {String} href
  */
 function customSuccessAlert(text,href){
-  const dangerAlert = document.querySelector('#custom_alert');
+  const dangerAlert = document.querySelector('#custom_success_alert');
   dim.style.display = 'block'
   dangerAlert.querySelector('.modal-body p').innerText = text;
   dangerAlert.style.display = 'block'
@@ -86,14 +86,14 @@ function customSuccessAlert(text,href){
  */
 function customConfirm(text,callback){
   const confirmAlert = document.querySelector('#custom_confirm');
-
+  dim.style.display = 'block'
   confirmAlert.querySelector('.modal-body p').innerText = text;
   confirmAlert.style.display = 'block';
   requestAnimationFrame(()=>{
     confirmAlert.classList.add('show');
   })
 
-  const closeBtn = document.querySelectorAll('modal_close');
+  const closeBtn = document.querySelectorAll('.modal_close');
   closeBtn.forEach((el)=>{
     el.onclick = ()=>{
       closeModal();
@@ -109,6 +109,7 @@ function customConfirm(text,callback){
   }
 
   function closeModal(){
+    dim.style.display = 'none';
     confirmAlert.classList.remove('show');
     confirmAlert.style.display = 'none';
   }
