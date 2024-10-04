@@ -4,8 +4,8 @@ import mybatis from '../config/mybatisConfig';
 import { ResultObject } from '../interface/ResultObject';
 
 export const EmployeeModel = {
-  select : async (employee:Employee)=>{
-   const sql = mybatis.getStatement('employeeMapper','select',employee);
+  selectCode : async (code:string)=>{
+   const sql = mybatis.getStatement('employeeMapper','select',{code : code});
    let resultObj:ResultObject = await connect(sql);
    return resultObj.data[0];
   }

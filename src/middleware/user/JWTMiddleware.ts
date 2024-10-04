@@ -3,8 +3,9 @@ import { JwtPayload } from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import { JWTUtil } from '../../util/JWTUtil';
 import { Member } from '../../interface/Member';
-import { memberModel } from '../../models/memberModel';
-import { EmployeeModel} from '../../models/employeeModel';
+import { memberModel } from '../../models/MemberModel';
+import { EmployeeModel} from '../../models/EmployeeModel';
+import { Employee } from '../../interface/Employee';
 
 export const JWTMiddleware = {
   /**
@@ -18,7 +19,17 @@ export const JWTMiddleware = {
     console.log(req.cookies)
     const accessToken = req.cookies.access_token;
     const refreshToken = req.cookies.refresh_token;
-
+    if(accessToken == null || refreshToken == null){
+      console.error("")
+      console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+      console.error('@@@@@@@@ 손상된 토큰 @@@@@@@@@')
+      console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+      console.error("")
+      res.clearCookie('access_token');
+      res.clearCookie('refresh_token');
+      res.redirect('/login')
+      return;
+    }
     const decodeToken = JWTUtil.decodeToken(accessToken);
     let code = (decodeToken as JwtPayload).code as string;
     if(code == null || code == ''){
@@ -48,6 +59,7 @@ export const JWTMiddleware = {
 
     try {
       JWTUtil.verifyMemberToken(accessToken);
+      next();
     } catch (error) {
       console.error("")
       console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
@@ -77,9 +89,16 @@ export const JWTMiddleware = {
     }
   },
 
+  /**
+   * 관리자 페이지 토큰 확인
+   * @param req 
+   * @param res 
+   * @param next 
+   * @returns 
+   */
   checkAdminToken : async (req:Request, res:Response , next:NextFunction)=>{
-    const accessToken = req.cookies.access_token;
-    const refreshToken = req.cookies.refresh_token;
+    const accessToken = req.cookies.a_access_token;
+    const refreshToken = req.cookies.a_refresh_token;
 
     const decodeToken = JWTUtil.decodeToken(accessToken);
     let code = (decodeToken as JwtPayload).code as string;
@@ -95,6 +114,53 @@ export const JWTMiddleware = {
       return;
     }
 
-    // const employee = await EmployeeModel.
-  }
+    const employee:Employee = await EmployeeModel.selectCode(code);
+    if(employee == null){
+      console.error("")
+      console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+      console.error('@@@@@@@@ 손상된 토큰 @@@@@@@@@')
+      console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+      console.error("")
+      res.clearCookie('access_token');
+      res.clearCookie('refresh_token');
+      res.redirect('/admin/login')
+      return;
+    }
+    if(employee.access_token != accessToken || employee.refresh_token != refreshToken){
+      console.error("")
+      console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+      console.error('@@@@@@@@ 손상된 토큰 @@@@@@@@@')
+      console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+      console.error("")
+      res.clearCookie('access_token');
+      res.clearCookie('refresh_token');
+      res.redirect('/admin/login')
+      return;
+    }
+
+    try {
+      JWTUtil.verifyAdminToken(accessToken);
+      next();
+    } catch (error) {
+      console.error("")
+      console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+      console.error('@@@@@@@@ 만료된 토큰 @@@@@@@@@')
+      console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+      console.error("")
+      try {
+        JWTUtil.verifyAdminToken(refreshToken);
+        next();
+      } catch (error) {
+        console.error("")
+        console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        console.error('@@@@@@@@ 만료된 토큰 @@@@@@@@@')
+        console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        console.error("")
+        res.clearCookie('a_access_token');
+        res.clearCookie('a_refresh_token');
+        return;
+      }
+    }
+  },
+
 }

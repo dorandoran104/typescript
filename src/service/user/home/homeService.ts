@@ -1,7 +1,7 @@
 import { Request,Response } from "express";
 import { Member } from "../../../interface/Member";
 import { RandomUtil } from '../../../util/RandomUtil';
-import { memberModel } from "../../../models/memberModel";
+import { memberModel } from "../../../models/MemberModel";
 import { ResultObject } from "../../../interface/ResultObject";
 import { BcryptUtil } from "../../../util/BcryptUtil";
 import { JWTUtil } from "../../../util/JWTUtil";
