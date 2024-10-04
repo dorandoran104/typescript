@@ -14,3 +14,19 @@ tsconfig.json 설정하기
 2. npm init
 3. npm i express
 4. npm i -D typescript ts-node nodemon @types/node @types/express;
+
+
+- 기능 구현
+  - 회원
+    - 기본
+      - 로그인        
+      - 회원가입
+        - bcrypt 으로 비밀번호 인코딩
+        - jwt (access token , refresh_token) 사용
+  
+  - 관리자
+    - 기본
+      - 로그인
+      - 회원가입
+        - bcrypt 으로 비밀번호 인코딩
+        - jwt (access token , refresh_token) 사용
