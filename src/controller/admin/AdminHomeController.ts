@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
-import { ResultObject } from "../../../interface/ResultObject";
-import { AdminHomeService } from "../../../service/admin/home/AdminHomeService";
+import { ResultObject } from "../../interface/ResultObject";
+import { AdminHomeService } from "../../service/admin/home/AdminHomeService";
 
 export const AdminHomeController = {
   view : {

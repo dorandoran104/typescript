@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { AdminHomeController } from "../../../controller/admin/home/AdminHomeController";
+import { AdminHomeController } from "../../controller/admin/AdminHomeController";
 
 const router:Router = Router();
 
