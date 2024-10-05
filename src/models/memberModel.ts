@@ -42,6 +42,11 @@ export const memberModel = {
     return resultObj.data[0];
   },
 
+  /**
+   * 코드로 회원 조회
+   * @param code 
+   * @returns 
+   */
   selectCode : async (code:string)=>{
     let param = {code : code};
     const sql = mybatisMapper.getStatement("MemberMapper",'select',param);

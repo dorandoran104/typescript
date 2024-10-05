@@ -6,7 +6,8 @@ import cookieParser from 'cookie-parser';
 import HomeRouter from './routes/user/homeRoutes'
 import CartRouter from './routes/user/CartRoutes';
 
-import AdminHomeRouter from './routes/admin/home/AdminHomeRoutes';
+import AdminHomeRouter from './routes/admin/AdminHomeRoutes';
+import AdminEmployeeRouter from './routes/admin/AdminEmployeeRoutes';
 
 const port:Number = 3000;
 const app = express();
@@ -20,6 +21,7 @@ app.use('/',HomeRouter);
 app.use('/cart',CartRouter);
 
 app.use('/admin',AdminHomeRouter);
+app.use('/admin/employee',AdminEmployeeRouter);
 
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'pug');
