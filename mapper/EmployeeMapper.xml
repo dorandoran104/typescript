@@ -20,4 +20,22 @@
       </if>
     </where>
   </select>
+
+  <insert id="insert">
+    INSERT INTO employee (
+      code
+      ,email
+      ,password
+      ,name
+      ,mobile_number
+      ,birth_date
+    )VALUES(
+      #{code}
+      ,#{email}
+      ,#{password}
+      ,#{name}
+      ,#{mobile_number}
+      ,#{birth_date}
+    )
+  </insert>
 </mapper>
