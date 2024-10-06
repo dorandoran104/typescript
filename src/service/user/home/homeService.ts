@@ -1,7 +1,7 @@
 import { Request,Response } from "express";
 import { Member } from "../../../interface/Member";
 import { RandomUtil } from '../../../util/RandomUtil';
-import { memberModel } from "../../../models/MemberModel";
+import { MemberModel } from "../../../models/MemberModel";
 import { ResultObject } from "../../../interface/ResultObject";
 import { BcryptUtil } from "../../../util/BcryptUtil";
 import { JWTUtil } from "../../../util/JWTUtil";
@@ -53,7 +53,7 @@ export const homeService = {
     
     while(existsFlag == false){
       const randomCode = RandomUtil.createRandomCode(13);
-      const count = await memberModel.codeExists(randomCode);
+      const count = await MemberModel.codeExists(randomCode);
       if(count == 0){
         existsFlag = true;
         body.code = randomCode;
@@ -63,7 +63,7 @@ export const homeService = {
     const encode = BcryptUtil.createBcrypt(body.password);
     body.password = encode;
     console.log(body.code);
-    resultObj = await memberModel.insert(body);
+    resultObj = await MemberModel.insert(body);
     return resultObj;
   },
   /**
@@ -74,7 +74,7 @@ export const homeService = {
   login : async (req:Request,res:Response)=>{
     let resultObj:ResultObject = {result : false};
     const body:Member = req.body;
-    const member:Member = await memberModel.select(body);
+    const member:Member = await MemberModel.select(body);
     if(member == null){
       resultObj.errMessage = '아이디 혹은 비밀번호를 확인해 주세요';
       return resultObj;
@@ -92,7 +92,7 @@ export const homeService = {
       const refresh_token = JWTUtil.createMemberToken(member,'5d');
       member.access_token = access_token;
       member.refresh_token = refresh_token;
-      if((await memberModel.updateToken(member)).result){
+      if((await MemberModel.updateToken(member)).result){
         res.cookie('access_token',access_token);
         res.cookie('refresh_token',refresh_token);
       }

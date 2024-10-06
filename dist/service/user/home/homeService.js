@@ -11,10 +11,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.homeService = void 0;
 const RandomUtil_1 = require("../../../util/RandomUtil");
-const memberModule_1 = require("../../../module/memberModule");
+const MemberModel_1 = require("../../../models/MemberModel");
+const BcryptUtil_1 = require("../../../util/BcryptUtil");
+const JWTUtil_1 = require("../../../util/JWTUtil");
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const phoneRegex = /^01[016789]-?\d{3,4}-?\d{4}$/;
 exports.homeService = {
+    /**
+     * 회원가입
+     * @param req
+     * @returns
+     */
     register: (req) => __awaiter(void 0, void 0, void 0, function* () {
         let resultObj = { result: false };
         let body = req.body;
@@ -45,14 +52,48 @@ exports.homeService = {
         let existsFlag = false;
         while (existsFlag == false) {
             const randomCode = RandomUtil_1.RandomUtil.createRandomCode(13);
-            const count = yield memberModule_1.memberModel.codeExists(randomCode);
+            const count = yield MemberModel_1.MemberModel.codeExists(randomCode);
             if (count == 0) {
                 existsFlag = true;
                 body.code = randomCode;
             }
         }
+        const encode = BcryptUtil_1.BcryptUtil.createBcrypt(body.password);
+        body.password = encode;
         console.log(body.code);
-        resultObj = yield memberModule_1.memberModel.insert(body);
+        resultObj = yield MemberModel_1.MemberModel.insert(body);
+        return resultObj;
+    }),
+    /**
+     * 로그인
+     * @param req
+     * @returns
+     */
+    login: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        let resultObj = { result: false };
+        const body = req.body;
+        const member = yield MemberModel_1.MemberModel.select(body);
+        if (member == null) {
+            resultObj.errMessage = '아이디 혹은 비밀번호를 확인해 주세요';
+            return resultObj;
+        }
+        const comparePassword = yield BcryptUtil_1.BcryptUtil.compareBcrypt(body.password, member.password);
+        if (!comparePassword) {
+            resultObj.errMessage = '아이디 혹은 비밀번호를 확인해 주세요';
+            return resultObj;
+        }
+        resultObj.result = comparePassword;
+        if (resultObj.result) {
+            //jwt토큰 생성
+            const access_token = JWTUtil_1.JWTUtil.createMemberToken(member, '1h');
+            const refresh_token = JWTUtil_1.JWTUtil.createMemberToken(member, '5d');
+            member.access_token = access_token;
+            member.refresh_token = refresh_token;
+            if ((yield MemberModel_1.MemberModel.updateToken(member)).result) {
+                res.cookie('access_token', access_token);
+                res.cookie('refresh_token', refresh_token);
+            }
+        }
         return resultObj;
     })
 };

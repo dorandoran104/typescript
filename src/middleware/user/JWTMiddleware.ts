@@ -3,7 +3,7 @@ import { JwtPayload } from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import { JWTUtil } from '../../util/JWTUtil';
 import { Member } from '../../interface/Member';
-import { memberModel } from '../../models/MemberModel';
+import { MemberModel } from '../../models/MemberModel';
 import { EmployeeModel} from '../../models/EmployeeModel';
 import { Employee } from '../../interface/Employee';
 
@@ -44,7 +44,7 @@ export const JWTMiddleware = {
       return;
     }
 
-    const member:Member = await memberModel.selectCode(code);
+    const member:Member = await MemberModel.selectCode(code);
     if(member.access_token != accessToken || member.refresh_token != refreshToken){
       console.error("")
       console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
@@ -70,7 +70,7 @@ export const JWTMiddleware = {
         JWTUtil.verifyMemberToken(refreshToken);
         const newAccessToken = JWTUtil.createMemberToken(member,'1d');
         member.access_token = newAccessToken;
-        if((await memberModel.updateToken(member)).result){
+        if((await MemberModel.updateToken(member)).result){
           res.cookie('access_token',newAccessToken);
           next();
         }

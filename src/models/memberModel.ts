@@ -4,7 +4,7 @@ import mybatisMapper from '../config/mybatisConfig';
 import format from '../config/mybatisConfig';
 import { ResultObject } from '../interface/ResultObject';
 
-export const memberModel = {
+export const MemberModel = {
   /**
    * 코드 중복 확인
    * @param code 
