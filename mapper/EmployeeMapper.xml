@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="employeeMapper">
-
+  <!-- 직원 > 코드 중복 확인 -->
+  <select id="exists">
+    SELECT
+      COUNT(idx) as count
+    FROM employee
+    WHERE code = #{code}
+  </select>
+  
+  <!-- 직원 조회 -->
   <select id="select" resultType="Employee">
     SELECT
       idx
@@ -21,6 +29,7 @@
     </where>
   </select>
 
+  <!-- 직원 > 저장 -->
   <insert id="insert">
     INSERT INTO employee (
       code
@@ -38,4 +47,17 @@
       ,#{birth_date}
     )
   </insert>
+
+  <select id="list">
+    SELECT
+      code
+      ,name
+      ,mobile_number
+      ,DATE_FORMAT(start_date,'%Y-%m-%d') as start_date
+      ,DATE_FORMAT(end_Date,'%Y-%m-%d') as end_date
+    FROM employee
+    WHERE
+      delete_yn = 'N'
+    ORDER BY idx DESC
+  </select>
 </mapper>

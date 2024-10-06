@@ -51,7 +51,24 @@ export const AdminEmployeeService = {
     employee.password = encode;
 
     resultObj = await EmployeeModel.insert(employee);
+    return resultObj;
+  },
 
+  list : async (req:Request)=>{
+    let resultObj:ResultObject = await EmployeeModel.list(req.body);
+    resultObj.data.map((data:Employee)=>{
+      if(data.end_date == null || data.end_date == ''){
+        data.employee_status = false;
+      }
+      if(data.end_date != null && data.end_date != '' ){
+        let today = new Date();
+        today.setHours(0,0,0,0);
+
+        let endDate = new Date(data.end_date);
+        endDate.setHours(0,0,0,0);
+        data.employee_status = today >= endDate;
+      }
+    })
     return resultObj;
   }
 }

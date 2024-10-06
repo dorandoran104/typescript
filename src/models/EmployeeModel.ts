@@ -45,5 +45,10 @@ export const EmployeeModel = {
   insert : async (employee:Employee)=>{
     const sql = mybatis.getStatement('employeeMapper','insert',employee);
     return await connect(sql) as ResultObject;
+  },
+
+  list : async (param:any)=>{
+    const sql = mybatis.getStatement('employeeMapper','list',param);
+    return await connect(sql) as ResultObject;
   }
 }

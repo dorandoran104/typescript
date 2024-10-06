@@ -27,17 +27,15 @@ block content
                   th(scope="col") 입사일
                   th(scope="col") 퇴사일
               tbody
-                //- if result.data.length == 0
-                //-   tr(colspan='5')
-                //-     td 데이터가 존재하지 않습니다.
-                //- else 
-                //-   for list in result.list
-                //-     tr.pointer.link(data-code=list.code)
-                //-       th=list.name
-                //-       td=list.mobile_number
-                //-       td=list.status
-                //-       td=list.start_date
-                //-       td=list.end_date == null ? '-' : list.end_date
-                
-
+                if data.length == 0
+                  tr(colspan='5')
+                    td 데이터가 존재하지 않습니다.
+                else 
+                  for list in data
+                    tr.pointer.link(data-code=list.code)
+                      th=list.name
+                      td=list.mobile_number
+                      td=list.employee_status ? '퇴사' : '재직'
+                      td=list.start_date
+                      td=list.end_date == null ? '-' : list.end_date
   script(src="/javascript/admin/employee/list.js") 
