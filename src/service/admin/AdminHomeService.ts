@@ -1,7 +1,7 @@
 import { Request,  Response } from "express";
-import { Employee } from "../../../interface/Employee";
-import { ResultObject } from "../../../interface/ResultObject";
-import { EmployeeModel } from "../../../models/EmployeeModel";
+import { Employee } from "../../interface/Employee";
+import { ResultObject } from "../../interface/ResultObject";
+import { EmployeeModel } from "../../models/EmployeeModel";
 
 export const AdminHomeService = {
   login : async (req:Request,res:Response)=>{

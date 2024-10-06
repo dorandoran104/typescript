@@ -5,6 +5,17 @@ import { ResultObject } from '../interface/ResultObject';
 
 export const EmployeeModel = {
   /**
+   * 코드 중복 확인
+   * @param code 
+   * @returns 
+   */
+  exists : async (code:string)=>{
+    const sql = mybatis.getStatement('employeeMapper','exists',{code:code});
+    let resultObj:ResultObject = await connect(sql);
+    return resultObj.data[0].count;
+  },
+
+  /**
    * 코드로 직원 조회
    * @param code 
    * @returns 
@@ -24,5 +35,20 @@ export const EmployeeModel = {
     const sql = mybatis.getStatement('employeeMapper','select',employee);
     let resultObj:ResultObject = await connect(sql);
     return resultObj.data[0];
+  },
+
+  /**
+   * 직원 저장
+   * @param employee 
+   * @returns 
+   */
+  insert : async (employee:Employee)=>{
+    const sql = mybatis.getStatement('employeeMapper','insert',employee);
+    return await connect(sql) as ResultObject;
+  },
+
+  list : async (param:any)=>{
+    const sql = mybatis.getStatement('employeeMapper','list',param);
+    return await connect(sql) as ResultObject;
   }
 }

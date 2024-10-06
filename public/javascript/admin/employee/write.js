@@ -33,9 +33,8 @@ button.onclick = ()=>{
     return false;
   }
   
-  console.log(param);
   customConfirm('저장하시겠습니까?',async ()=>{
-    const data = await customFetch('/admin/write','post',param);
+    const data = await customFetch('/admin/employee/write','post',param);
     if(data.promiseResult && data.result){
       customSuccessAlert('저장되었습니다.','/admin/employee')
     }
