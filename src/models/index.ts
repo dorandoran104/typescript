@@ -20,6 +20,7 @@ export const connect = async (sql:string)=>{
         reject(resultObj);
       }
       if(!err){
+        console.log(data);
         resultObj.result = true;
         resultObj.data = data;
         resolve(resultObj);

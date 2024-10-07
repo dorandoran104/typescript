@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { AdminHomeController } from "../../controller/admin/AdminHomeController";
+import { JWTMiddleware } from "../../middleware/user/JWTMiddleware";
 
 const router:Router = Router();
 

@@ -97,8 +97,29 @@ export const JWTMiddleware = {
    * @returns 
    */
   checkAdminToken : async (req:Request, res:Response , next:NextFunction)=>{
-    const accessToken = req.cookies.a_access_token;
-    const refreshToken = req.cookies.a_refresh_token;
+    const path:string = req.path;
+    if(path == '/login'){
+      return next();
+    }
+    const accessToken = req.cookies.admin_access_token;
+    const refreshToken = req.cookies.admin_refresh_token;
+     console.error("")
+      console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+      console.error('@@@@@@@@ 토큰 검증 @@@@@@@@@')
+      console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+      console.error("")
+
+    if(accessToken == null || refreshToken == ''){
+      console.error("")
+      console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+      console.error('@@@@@@@@ 손상된 토큰 @@@@@@@@@')
+      console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+      console.error("")
+      res.clearCookie('admin_access_token');
+      res.clearCookie('admin_refresh_token');
+      res.redirect('/admin/login')
+      return;
+    }
 
     const decodeToken = JWTUtil.decodeToken(accessToken);
     let code = (decodeToken as JwtPayload).code as string;
@@ -108,8 +129,8 @@ export const JWTMiddleware = {
       console.error('@@@@@@@@ 손상된 토큰 @@@@@@@@@')
       console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
       console.error("")
-      res.clearCookie('access_token');
-      res.clearCookie('refresh_token');
+      res.clearCookie('admin_access_token');
+      res.clearCookie('admin_refresh_token');
       res.redirect('/admin/login')
       return;
     }
@@ -121,8 +142,8 @@ export const JWTMiddleware = {
       console.error('@@@@@@@@ 손상된 토큰 @@@@@@@@@')
       console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
       console.error("")
-      res.clearCookie('access_token');
-      res.clearCookie('refresh_token');
+      res.clearCookie('admin_access_token');
+      res.clearCookie('admin_refresh_token');
       res.redirect('/admin/login')
       return;
     }
@@ -132,8 +153,8 @@ export const JWTMiddleware = {
       console.error('@@@@@@@@ 손상된 토큰 @@@@@@@@@')
       console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
       console.error("")
-      res.clearCookie('access_token');
-      res.clearCookie('refresh_token');
+      res.clearCookie('admin_access_token');
+      res.clearCookie('admin_refresh_token');
       res.redirect('/admin/login')
       return;
     }
@@ -149,15 +170,15 @@ export const JWTMiddleware = {
       console.error("")
       try {
         JWTUtil.verifyAdminToken(refreshToken);
-        next();
+        return next();
       } catch (error) {
         console.error("")
         console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         console.error('@@@@@@@@ 만료된 토큰 @@@@@@@@@')
         console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         console.error("")
-        res.clearCookie('a_access_token');
-        res.clearCookie('a_refresh_token');
+        res.clearCookie('admin_access_token');
+        res.clearCookie('admin_refresh_token');
         return;
       }
     }
