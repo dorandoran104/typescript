@@ -6,6 +6,7 @@ import { Member } from '../../interface/Member';
 import { MemberModel } from '../../models/MemberModel';
 import { EmployeeModel} from '../../models/EmployeeModel';
 import { Employee } from '../../interface/Employee';
+import { ResultObject } from '../../interface/ResultObject';
 
 export const JWTMiddleware = {
   /**
@@ -70,7 +71,6 @@ export const JWTMiddleware = {
         JWTUtil.verifyMemberToken(refreshToken);
         const newAccessToken = JWTUtil.createMemberToken(member,'1d');
         member.access_token = newAccessToken;
-        console.error(error);
         console.error("")
         console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         console.error('@@@@@@@@ 토큰 재발행 @@@@@@@@@')
@@ -80,8 +80,8 @@ export const JWTMiddleware = {
           res.cookie('access_token',newAccessToken);
           next();
         }
-      } catch (error) {
-        console.error(error);
+      } catch (error1) {
+        console.error(error1);
         console.error("")
         console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         console.error('@@@@@@@@ 만료된 토큰 @@@@@@@@@')
@@ -176,7 +176,17 @@ export const JWTMiddleware = {
       console.error("")
       try {
         JWTUtil.verifyAdminToken(refreshToken);
-        return next();
+        console.error("")
+        console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        console.error('@@@@@@@@ 토큰 재발행 @@@@@@@@@')
+        console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        console.error("")
+        const newAccessToken = JWTUtil.createAdminToken(employee,'1h');
+        if(await EmployeeModel.update(employee)){
+          res.cookie('admin_access_token',newAccessToken);
+          return next();
+        }
+        return;
       } catch (error) {
         console.error("")
         console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")

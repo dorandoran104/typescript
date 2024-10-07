@@ -1261,8 +1261,14 @@ CUSTOM
 
 .dropdown-btn {
   padding: 10px;
-  background-color: #f1f1f1;
+  /* background-color: #f1f1f1; */
   cursor: pointer;
+  border: 1px solid #dddddd;
+  border-radius: 10px;
+}
+
+.disabled {
+  background-color: #f1f1f1;
 }
 
 .dropdown-content {

@@ -11,18 +11,20 @@ const dim = document.querySelector('.dim');
  */
 const selects = document.querySelectorAll('.dropdown-btn');
 selects.forEach((el)=>{
-  el.addEventListener('click',()=>{
-    const dropdown = el.nextElementSibling;
-    dropdown.style.width = el.offsetWidth + 'px';
-    dropdown.classList.toggle('show');
-
-    dropdown.querySelectorAll('a').forEach((el1)=>{
-      el1.addEventListener('click',()=>{
-        el.innerText = el1.innerText;
-        dropdown.classList.remove('show');
+  if(!el.classList.contains('disabled')){
+    el.addEventListener('click',()=>{
+      const dropdown = el.nextElementSibling;
+      dropdown.style.width = el.offsetWidth + 'px';
+      dropdown.classList.toggle('show');
+  
+      dropdown.querySelectorAll('a').forEach((el1)=>{
+        el1.addEventListener('click',()=>{
+          el.innerText = el1.innerText;
+          dropdown.classList.remove('show');
+        })
       })
     })
-  })
+  }
 })
 
 // 드롭다운 외부를 클릭 시 모든 드롭다운을 닫음

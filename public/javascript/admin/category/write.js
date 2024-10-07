@@ -5,7 +5,9 @@ first_category.querySelectorAll('a').forEach((el)=>{
   el.onclick = ()=>{
     selectValue(first_category,el);
     const first_category_input = document.querySelector('input[name="first_category_input"]');
+    const second_category_input = document.querySelector('input[name="second_category_input"]');
     first_category_input.disabled = el.getAttribute('data-value') != 'a'
+    second_category_input.disabled = el.getAttribute('data-value') != 'a'
   }
 })
 
@@ -27,7 +29,7 @@ document.querySelector('.write_btn').onclick = ()=>{
   const first_category_value = first_category.previousElementSibling.getAttribute('data-value');
   const first_category_input = document.querySelector('input[name="first_category_input"]');
   
-  const second_category_value = second_category.previousElementSibling
+  const second_category_value = second_category.previousElementSibling.getAttribute('data-value');
   const second_category_input = document.querySelector('input[name="second_category_input"]');
   if(first_category_value == null || first_category_value == ''){
     customSelectAlert('1차 카테고리를 선택해 주세요',first_category);
@@ -39,13 +41,13 @@ document.querySelector('.write_btn').onclick = ()=>{
     return false;
   }
 
-  if(second_category_value == null || second_category_value == ''){
-    customSelectAlert('2차 카테고리를 선택해 주세요',second_category);
-    return false;
-  }
+  // if(second_category_value == null || second_category_value == ''){
+  //   customSelectAlert('2차 카테고리를 선택해 주세요',second_category);
+  //   return false;
+  // }
 
-  if(second_category_value === 'a' && (second_category_value.value == null || second_category_value.value == '')){
-    customAlert('2차 카테고리를 입력해 주세요',second_category_value);
+  if(second_category_value === 'a' && (second_category_input.value == null || second_category_input.value == '')){
+    customAlert('2차 카테고리를 입력해 주세요',second_category_input);
     return false;
   }
 
@@ -53,7 +55,7 @@ document.querySelector('.write_btn').onclick = ()=>{
     param.first_category_idx = first_category_value;
     param.first_category_input= first_category_input.value;
     param.second_category_idx = second_category_value;
-    param.second_category_input = second_category_input;
+    param.second_category_input = second_category_input.value;
 
     let data = await customFetch('/admin/category/write','post',param);
     if(data.promiseResult && data.result){
