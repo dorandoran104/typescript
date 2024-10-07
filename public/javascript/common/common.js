@@ -323,7 +323,6 @@ const targetPath = path;
 const nav = document.querySelectorAll('.sidebar-nav a.link')
 nav.forEach((el)=>{
   let href = el.getAttribute('href')
-  console.log(targetPath)
   // href = href.substring(0,href.lastIndexOf('/'));
   // console.log(href)
   if(href == targetPath){

@@ -22,28 +22,19 @@ block content
               label.col-sm-6 2차 카테고리
               .col-sm-6.dropdown
                 .dropdown-btn 1차 카테고리 선택
-                .dropdown-content
+                .dropdown-content.first_category
                   a.pointer(herf="javascript:void(0)", data-value="a") 직접입력
+                  a.pointer(herf="javascript:void(0)", data-value="1") 유니폼
               .col-sm-6.dropdown
                 .dropdown-btn 2차 카테고리 선택
-                .dropdown-content
+                .dropdown-content.second_category
                   a.pointer(herf="javascript:void(0)", data-value="a") 직접입력
-              //- label.col-sm-6 1차 카테고리
-              //- label.col-sm-6 2차 카테고리
-              //- .col-sm-6.chg_display
-              //-   select.form-select.first_category(aria-label="Default select example",onchange="change_input(this)")
-              //-     option(value="") 1차 카테고리 선택
-              //-     option(value="a") 직접입력
-              //- .col-sm-6.chg_display
-              //-   select.form-select.second_category(aria-label="Default select example",onchange="change_input(this)")
-              //-     option(value="") 2차 카테고리 선택
-              //-     option(value="a") 직접입력
-              //- .col-sm-6
-              //-   label
-              //-   input.form-control(type="text", name="first_category_input", disabled)
-              //- .col-sm-6 
-              //-   label
-              //-   input.form-control(type="text", name="second_category_input", disabled)
-              //- .col-12
-              //-   button.btn.btn-primary.write_btn(type="button") 등록
+              .col-sm-6
+                label
+                input.form-control(type="text", name="first_category_input", disabled)
+              .col-sm-6 
+                label
+                input.form-control(type="text", name="second_category_input", disabled)
+              .col-12
+                button.btn.btn-primary.write_btn(type="button") 등록
   script(src="/javascript/admin/category/write.js")   

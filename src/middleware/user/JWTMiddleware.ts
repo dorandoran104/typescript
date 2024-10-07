@@ -70,6 +70,12 @@ export const JWTMiddleware = {
         JWTUtil.verifyMemberToken(refreshToken);
         const newAccessToken = JWTUtil.createMemberToken(member,'1d');
         member.access_token = newAccessToken;
+        console.error(error);
+        console.error("")
+        console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        console.error('@@@@@@@@ 토큰 재발행 @@@@@@@@@')
+        console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+        console.error("")
         if((await MemberModel.updateToken(member)).result){
           res.cookie('access_token',newAccessToken);
           next();

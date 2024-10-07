@@ -75,6 +75,12 @@ exports.JWTMiddleware = {
                 JWTUtil_1.JWTUtil.verifyMemberToken(refreshToken);
                 const newAccessToken = JWTUtil_1.JWTUtil.createMemberToken(member, '1d');
                 member.access_token = newAccessToken;
+                console.error(error);
+                console.error("");
+                console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+                console.error('@@@@@@@@ 토큰 재발행 @@@@@@@@@');
+                console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+                console.error("");
                 if ((yield MemberModel_1.MemberModel.updateToken(member)).result) {
                     res.cookie('access_token', newAccessToken);
                     next();
@@ -102,8 +108,28 @@ exports.JWTMiddleware = {
      * @returns
      */
     checkAdminToken: (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-        const accessToken = req.cookies.a_access_token;
-        const refreshToken = req.cookies.a_refresh_token;
+        const path = req.path;
+        if (path == '/login') {
+            return next();
+        }
+        const accessToken = req.cookies.admin_access_token;
+        const refreshToken = req.cookies.admin_refresh_token;
+        console.error("");
+        console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        console.error('@@@@@@@@ 토큰 검증 @@@@@@@@@');
+        console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        console.error("");
+        if (accessToken == null || refreshToken == '') {
+            console.error("");
+            console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            console.error('@@@@@@@@ 손상된 토큰 @@@@@@@@@');
+            console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+            console.error("");
+            res.clearCookie('admin_access_token');
+            res.clearCookie('admin_refresh_token');
+            res.redirect('/admin/login');
+            return;
+        }
         const decodeToken = JWTUtil_1.JWTUtil.decodeToken(accessToken);
         let code = decodeToken.code;
         if (code == null || code == '') {
@@ -112,8 +138,8 @@ exports.JWTMiddleware = {
             console.error('@@@@@@@@ 손상된 토큰 @@@@@@@@@');
             console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
             console.error("");
-            res.clearCookie('access_token');
-            res.clearCookie('refresh_token');
+            res.clearCookie('admin_access_token');
+            res.clearCookie('admin_refresh_token');
             res.redirect('/admin/login');
             return;
         }
@@ -124,8 +150,8 @@ exports.JWTMiddleware = {
             console.error('@@@@@@@@ 손상된 토큰 @@@@@@@@@');
             console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
             console.error("");
-            res.clearCookie('access_token');
-            res.clearCookie('refresh_token');
+            res.clearCookie('admin_access_token');
+            res.clearCookie('admin_refresh_token');
             res.redirect('/admin/login');
             return;
         }
@@ -135,8 +161,8 @@ exports.JWTMiddleware = {
             console.error('@@@@@@@@ 손상된 토큰 @@@@@@@@@');
             console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
             console.error("");
-            res.clearCookie('access_token');
-            res.clearCookie('refresh_token');
+            res.clearCookie('admin_access_token');
+            res.clearCookie('admin_refresh_token');
             res.redirect('/admin/login');
             return;
         }
@@ -152,7 +178,7 @@ exports.JWTMiddleware = {
             console.error("");
             try {
                 JWTUtil_1.JWTUtil.verifyAdminToken(refreshToken);
-                next();
+                return next();
             }
             catch (error) {
                 console.error("");
@@ -160,8 +186,8 @@ exports.JWTMiddleware = {
                 console.error('@@@@@@@@ 만료된 토큰 @@@@@@@@@');
                 console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@");
                 console.error("");
-                res.clearCookie('a_access_token');
-                res.clearCookie('a_refresh_token');
+                res.clearCookie('admin_access_token');
+                res.clearCookie('admin_refresh_token');
                 return;
             }
         }

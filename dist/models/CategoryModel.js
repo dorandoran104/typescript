@@ -12,32 +12,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.connect = void 0;
-const mysqlConfig_1 = __importDefault(require("../config/mysqlConfig"));
-/**
- * 쿼리
- * @param sql 쿼리
- * @param paramArr 파라미터
- * @returns
- */
-const connect = (sql) => __awaiter(void 0, void 0, void 0, function* () {
-    let resultObj = { result: false };
-    return new Promise((resolve, reject) => {
-        console.log(sql);
-        mysqlConfig_1.default.query(sql, (err, data) => {
-            if (err) {
-                console.error(err.message);
-                resultObj.result = false;
-                resultObj.errMessage = err.message;
-                reject(resultObj);
-            }
-            if (!err) {
-                console.log(data);
-                resultObj.result = true;
-                resultObj.data = data;
-                resolve(resultObj);
-            }
-        });
-    });
-});
-exports.connect = connect;
+exports.CategoryModel = void 0;
+const index_1 = require("./index");
+const mybatisConfig_1 = __importDefault(require("../config/mybatisConfig"));
+exports.CategoryModel = {
+    insert: (category) => __awaiter(void 0, void 0, void 0, function* () {
+        const sql = mybatisConfig_1.default.getStatement('CategoryMapper', 'insert', category);
+        const resultObj = yield (0, index_1.connect)(sql);
+        return resultObj;
+    })
+};

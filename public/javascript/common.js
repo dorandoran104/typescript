@@ -13,10 +13,15 @@ const selects = document.querySelectorAll('.dropdown-btn');
 selects.forEach((el)=>{
   el.addEventListener('click',()=>{
     const dropdown = el.nextElementSibling;
-    console.log(el.offsetWidth);
-    console.log(el.clientWidth);
     dropdown.style.width = el.offsetWidth + 'px';
     dropdown.classList.toggle('show');
+
+    dropdown.querySelectorAll('a').forEach((el1)=>{
+      el1.addEventListener('click',()=>{
+        el.innerText = el1.innerText;
+        dropdown.classList.remove('show');
+      })
+    })
   })
 })
 
@@ -97,7 +102,7 @@ function customSelectAlert(text,target){
       dim.style.display = 'none';
       dangerAlert.classList.remove('show');
       dangerAlert.style.display = 'none';
-      target.click();
+      target.previousElementSibling.click();
     }
   })
 }

@@ -55,8 +55,18 @@ exports.EmployeeModel = {
         const sql = mybatisConfig_1.default.getStatement('employeeMapper', 'insert', employee);
         return yield (0, index_1.connect)(sql);
     }),
+    /**
+     * 직원 리스트 출력
+     * @param param
+     * @returns
+     */
     list: (param) => __awaiter(void 0, void 0, void 0, function* () {
         const sql = mybatisConfig_1.default.getStatement('employeeMapper', 'list', param);
         return yield (0, index_1.connect)(sql);
+    }),
+    update: (employee) => __awaiter(void 0, void 0, void 0, function* () {
+        const sql = mybatisConfig_1.default.getStatement('employeeMapper', 'update', employee);
+        const resultObj = yield (0, index_1.connect)(sql);
+        return resultObj.result;
     })
 };
