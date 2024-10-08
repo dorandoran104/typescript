@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="GoodsMapper">
+  <select id="exists">
+    SELECT
+      COUNT(idx) as count
+    FROM goods
+    WHERE code = #{code}
+  </select>
+
+  <insert id="insert">
+    INSERT INTO goods (
+      code
+      ,name
+      ,first_category_idx
+      ,second_category_idx
+      ,price
+      ,tax
+      ,total_price
+      ,use_yn
+      ,sold_out_yn
+      ,revealed_yn
+    )VALUES(
+      #{code}
+      ,#{name}
+      ,#{first_category_idx}
+      ,#{second_category_idx}
+      ,#{price}
+      ,#{tax}
+      ,#{total_price}
+      ,#{use_yn}
+      ,#{sold_out_yn}
+      ,#{revealed_yn}
+    )
+  </insert>
+
+  <update id="update">
+    UPDATE goods 
+      <set>
+        modify_date = NOW()
+        <if test="file_idx != null and file_idx != ''">
+        ,file_idx = #{file_idx}
+        </if>
+      </set>
+    WHERE
+      idx = #{idx}
+  </update>
+</mapper>
