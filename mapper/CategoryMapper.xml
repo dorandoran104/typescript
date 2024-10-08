@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="CategoryMapper">
+
+  <insert id="insert">
+    INSERT INTO category(
+      name
+      ,depth
+    )VALUES(
+      #{name}
+      ,#{depth}
+    )
+  </insert>
+
+  <insert id="insertAncestor">
+    INSERT INTO category_relationship (
+      ancestor_idx
+      ,descendant_idx
+    )VALUES(
+      #{descendant_idx}
+      ,#{descendant_idx}
+    );
+
+    INSERT INTO category_relationship (
+      ancestor_idx
+      ,descendant_idx
+    )
+    SELECT 
+      ancestor_idx
+      ,#{descendant_idx}
+    FROM category_relationship
+    WHERE descendant_idx = #{ancestor_idx}
+    AND descendant_idx != #{descendant_idx}
+  </insert>
+
+  <select id="depthList">
+    SELECT
+      idx
+      ,name
+    FROM category
+    WHERE depth = #{depth}
+  </select>
+
+  <select id="descendantList">
+  SELECT 
+    idx
+    ,name
+  FROM category c
+  INNER JOIN (
+    SELECT
+      ancestor_idx
+      ,descendant_idx
+    FROM category_relationship 
+  ) cr on cr.descendant_idx = c.idx
+  WHERE ancestor_idx = #{ancestor_idx}
+  and descendant_idx != #{ancestor_idx}
+  </select>
+</mapper>

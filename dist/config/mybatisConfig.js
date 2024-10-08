@@ -3,14 +3,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const mysql2_1 = __importDefault(require("mysql2"));
-const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config();
-const connection = mysql2_1.default.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    database: process.env.DB_DATABASE,
-    password: process.env.DB_PASSWORD,
-    multipleStatements: true
-});
-exports.default = connection;
+exports.format = void 0;
+const mybatis_mapper_1 = __importDefault(require("mybatis-mapper"));
+const path_1 = __importDefault(require("path"));
+mybatis_mapper_1.default.createMapper([
+    path_1.default.join(__dirname, '../../mapper/EmployeeMapper.xml'),
+    path_1.default.join(__dirname, '../../mapper/MemberMapper.xml')
+]);
+exports.format = { language: 'sql', indent: '  ' };
+exports.default = mybatis_mapper_1.default;

@@ -319,11 +319,12 @@
   })();
 
 const path = window.location.pathname;
-const targetPath = path.substring(0,path.lastIndexOf('/'));
+const targetPath = path;
 const nav = document.querySelectorAll('.sidebar-nav a.link')
 nav.forEach((el)=>{
   let href = el.getAttribute('href')
-  href = href.substring(0,href.lastIndexOf('/'));
+  // href = href.substring(0,href.lastIndexOf('/'));
+  // console.log(href)
   if(href == targetPath){
     const parentEl = el.closest('.nav-item');
     const closestEl = parentEl.querySelector('.collapsed');

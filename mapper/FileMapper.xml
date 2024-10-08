@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="FileMapper">
+  <insert id="insert">
+    INSERT INTO file(
+      real_name
+      ,save_name
+      ,path
+      ,size
+    )VALUES(
+      #{original_name}
+      ,#{save_name}
+      ,#{path}
+      ,#{size}
+    )
+  </insert>
+</mapper>

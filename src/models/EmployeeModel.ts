@@ -47,8 +47,19 @@ export const EmployeeModel = {
     return await connect(sql) as ResultObject;
   },
 
+  /**
+   * 직원 리스트 출력
+   * @param param 
+   * @returns 
+   */
   list : async (param:any)=>{
     const sql = mybatis.getStatement('employeeMapper','list',param);
     return await connect(sql) as ResultObject;
+  },
+
+  update : async (employee:Employee)=>{
+    const sql = mybatis.getStatement('employeeMapper','update',employee);
+    const resultObj:ResultObject = await connect(sql);
+    return resultObj.result;
   }
 }

@@ -29,5 +29,16 @@ async function login(){
   param.password = password.value;
   
   let data = await customFetch('/admin/login','post',param)
+  if(data.promiseResult && data.result){
+    location.replace('/admin');
+  }
+  if(!data.promiseResult || !data.result){
+    if(data.errMessage != null && data.errMessage != ''){
+      customAlert(data.errMessage);
+      return false;
+    }
+    customAlert('로그인에 실패하였습니다.');
+    return false;
+  }
 
 }
