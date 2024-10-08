@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'fs/promises';
 import path from 'path';
 import { ResultObject } from '../interface/ResultObject';
 
@@ -18,20 +18,26 @@ export const FileUtil = {
   //   return resultObj;
   // }
   saveFile : async (file:Express.Multer.File,dir:string)=>{
-    let resultObj = {result : false};
-    let newPath = uploadPath+dir;
-
+    let resultObj:ResultObject = {result:false}
+    
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const dirPath = uploadPath + dir
+    const saveName = uniqueSuffix + '_' + file.originalname;
+    const newPath = uploadPath+dir + '/' + saveName;
     try {
-      await fs.mkdir(newPath,{ recursive : true}, (err)=>{
-        throw new Error();
-      });
+      await fs.mkdir(dirPath,{recursive : true})
 
-      await fs.writeFile(newPath,file.buffer,(err)=>{
-        throw new Error();
-      })
+      await fs.writeFile(newPath,file.buffer);
+
+      resultObj.data = {
+        size : file.size
+        ,original_name : file.originalname
+        ,save_name :saveName
+        ,path : '/public/image' + dir + '/'
+      }
       resultObj.result = true;
     } catch (error) {
-      
+      resultObj.errMessage = '파일 저장 실패';
     }finally{
       return resultObj;
     }
