@@ -40,15 +40,41 @@ exports.view = {
         res.render('user/home/register');
     })
 };
+/**
+ * API
+ */
 exports.process = {
+    /**
+     * 로그인
+     * @param req
+     * @param res
+     */
     login: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        let resultObj = { result: false };
+        try {
+            resultObj = yield homeService_1.homeService.login(req, res);
+        }
+        catch (error) {
+            console.log(error);
+            resultObj.result = false;
+            resultObj.errMessage = error instanceof Error ? error.message : String(error);
+        }
+        finally {
+            res.send(resultObj);
+        }
     }),
+    /**
+     * 회원가입
+     * @param req
+     * @param res
+     */
     register: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         let resultObj = { result: false };
         try {
             resultObj = yield homeService_1.homeService.register(req);
         }
         catch (error) {
+            console.log(error);
             resultObj.result = false;
             resultObj.errMessage = error instanceof Error ? error.message : String(error);
         }

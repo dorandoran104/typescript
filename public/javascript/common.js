@@ -7,6 +7,43 @@ const phoneRegex = /^01[016789]-?\d{3,4}-?\d{4}$/;
 const dim = document.querySelector('.dim');
 
 /**
+ * customSelect
+ */
+const selects = document.querySelectorAll('.dropdown-btn');
+selects.forEach((el)=>{
+  if(!el.classList.contains('disabled')){
+    el.addEventListener('click',()=>{
+      const dropdown = el.nextElementSibling;
+      dropdown.style.width = el.offsetWidth + 'px';
+      dropdown.classList.toggle('show');
+  
+      dropdown.querySelectorAll('a').forEach((el1)=>{
+        el1.addEventListener('click',()=>{
+          el.innerText = el1.innerText;
+          dropdown.classList.remove('show');
+        })
+      })
+    })
+  }
+})
+
+// 드롭다운 외부를 클릭 시 모든 드롭다운을 닫음
+window.addEventListener('click', (event) => {
+  selects.forEach(el => {
+    const dropdownContent = el.nextElementSibling;
+    // 만약 클릭한 대상이 dropdown-btn 또는 dropdown-content 내부가 아니라면
+    if (!el.contains(event.target) && !dropdownContent.contains(event.target)) {
+      dropdownContent.classList.remove('show'); // 드롭다운 닫기
+    }
+  });
+});
+/**
+ * customSelect
+ */
+
+
+
+/**
  * 커스텀 얼럿
  * @param {string} text 
  */
@@ -54,22 +91,39 @@ function customAlert(text,focus){
   })
 }
 
+function customSelectAlert(text,target){
+  console.log(target);
+  const dangerAlert = document.querySelector('#custom_alert');
+  dim.style.display = 'block';
+  dangerAlert.querySelector('.modal-body p').innerText = text;
+  dangerAlert.style.display = 'block';
+  dangerAlert.classList.add = 'show';
+  const closeBtn = dangerAlert.querySelectorAll('.modal_close');
+  closeBtn.forEach((el)=>{
+    el.onclick = ()=>{
+      dim.style.display = 'none';
+      dangerAlert.classList.remove('show');
+      dangerAlert.style.display = 'none';
+      target.previousElementSibling.click();
+    }
+  })
+}
+
 /**
  * 커스텀 얼럿
  * @param {Number} text 
  * @param {String} href
  */
 function customSuccessAlert(text,href){
-  const dangerAlert = document.querySelector('#custom_success_alert');
+  const successAlert = document.querySelector('#custom_success_alert');
   dim.style.display = 'block'
-  dangerAlert.querySelector('.modal-body p').innerText = text;
-  dangerAlert.style.display = 'block'
+  successAlert.querySelector('.modal-body p').innerText = text;
+  successAlert.style.display = 'block'
   requestAnimationFrame(()=>{
-    dim.style.display = 'none'
-    dangerAlert.classList.add('show');
+    successAlert.classList.add('show');
   })
 
-  dangerAlert.querySelectorAll('.modal_close').forEach((el)=>{
+  successAlert.querySelectorAll('.modal_close').forEach((el)=>{
     el.addEventListener('click',()=>{
       dim.style.display = 'none'
       location.replace(href);
@@ -135,6 +189,23 @@ async function customFetch(url,method,param){
     return res;
   }).catch((err)=>{
     console.error(err)
+    res.promiseResult = false;
+    return res;
+  })
+  return returnData;
+}
+
+async function customFormDataFetch(url,formData){
+  const returnData = await fetch(url,{
+    method : 'post'
+    ,body : formData
+  })
+  .then((res)=> res.json())
+  .then((res)=>{
+    res.promiseResult = true;
+    return res;
+  }).catch((err)=>{
+    console.log(err);
     res.promiseResult = false;
     return res;
   })

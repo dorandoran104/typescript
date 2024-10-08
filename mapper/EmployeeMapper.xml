@@ -60,4 +60,22 @@
       delete_yn = 'N'
     ORDER BY idx DESC
   </select>
+
+  <update id="update">
+    UPDATE employee 
+    <set>
+      <if test="access_token != null and access_token != ''">
+        ,access_token = #{access_token}
+      </if>
+      <if test="refresh_token != null and refresh_token != ''">
+        ,refresh_token = #{refresh_token}
+      </if>
+    </set>
+    WHERE 
+      <trim prefix="" prefixOverrides="AND | OR">
+        <if test="idx != null and idx != ''">
+          AND idx = #{idx}
+        </if>
+      </trim>
+  </update>
 </mapper>
