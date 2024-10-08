@@ -9,8 +9,9 @@ import CartRouter from './routes/user/CartRoutes';
 import AdminHomeRouter from './routes/admin/AdminHomeRoutes';
 import AdminEmployeeRouter from './routes/admin/AdminEmployeeRoutes';
 import AdminCategoryRouter from './routes/admin/AdminCategoryRoutes';
+import AdminGoodsRouter from './routes/admin/AdminGoodsRoutes';
 
-import { JWTMiddleware } from './middleware/user/JWTMiddleware';
+import { JWTMiddleware } from './middleware/JWTMiddleware';
 
 const port:Number = 3000;
 const app = express();
@@ -23,9 +24,11 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use('/',HomeRouter);
 app.use('/cart',CartRouter);
 
-app.use('/admin',JWTMiddleware.checkAdminToken,AdminHomeRouter);
-app.use('/admin/employee',JWTMiddleware.checkAdminToken,AdminEmployeeRouter);
-app.use('/admin/category',JWTMiddleware.checkAdminToken,AdminCategoryRouter);
+app.use('/admin',JWTMiddleware.checkAdminToken);
+app.use('/admin',AdminHomeRouter);
+app.use('/admin/employee',AdminEmployeeRouter);
+app.use('/admin/category',AdminCategoryRouter);
+app.use('/admin/goods',AdminGoodsRouter);
 
 app.set('views', path.join(__dirname, '../views'));
 app.set('view engine', 'pug');

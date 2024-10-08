@@ -1296,3 +1296,25 @@ CUSTOM
 .show {
   display: block;
 }
+
+.image-container {
+  position: relative;
+  display: inline-block;
+}
+.image-container img {
+  display: block;
+  width : 100%;
+  /* height : 100px; */
+  /* width: 300px; 이미지 크기 조정 */
+}
+.image-container .overlay {
+  position: absolute;
+  top: 10px; /* X 표시 위치 */
+  right: 10px;
+  font-size: 20px;
+  /* color: red; /* X 표시 색상 */
+  /* background-color: white;  */
+  padding: 2px 5px;
+  border-radius: 50%;
+  cursor: pointer;
+}

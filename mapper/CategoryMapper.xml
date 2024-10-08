@@ -32,4 +32,27 @@
     WHERE descendant_idx = #{ancestor_idx}
     AND descendant_idx != #{descendant_idx}
   </insert>
+
+  <select id="depthList">
+    SELECT
+      idx
+      ,name
+    FROM category
+    WHERE depth = #{depth}
+  </select>
+
+  <select id="descendantList">
+  SELECT 
+    idx
+    ,name
+  FROM category c
+  INNER JOIN (
+    SELECT
+      ancestor_idx
+      ,descendant_idx
+    FROM category_relationship 
+  ) cr on cr.descendant_idx = c.idx
+  WHERE ancestor_idx = #{ancestor_idx}
+  and descendant_idx != #{ancestor_idx}
+  </select>
 </mapper>

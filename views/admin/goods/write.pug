@@ -1,0 +1,61 @@
+extends ../include/head
+
+block content
+  main#main.main
+    .pagetitle
+      h1 상품관리
+      nav
+        ol.breadcrumb
+          li.breadcrumb-item
+            a(href="/admin") 대시보드
+          li.breadcrumb-item
+            a(href="/admin/goods") 상품관리
+          li.breadcrumb-item.active 등록
+    section.section 
+      .row 
+        div.card
+          .card-body
+            h5.card-title 상품등록
+            // Custom Styled Validation
+            form.row.g-3.needs-validation(novalidate)
+              .col-md-12
+                label.form-label(for="validationCustom01") 상품명
+                input.form-control(type="text", id="validationCustom01", value="" name="name")
+              .col-sm-6.chg_display
+                label.form-label 1차 카테고리
+                .dropdown-btn 1차 카테고리 선택
+                .dropdown-content.first_category(name="first_category_idx")
+                  for list in data
+                    a.pointer(herf="javascript:void(0)", data-value=list.idx, onclick="change_first_category(this)")=list.name
+              .col-sm-6.chg_display
+                label.form-label 2차 카테고리
+                .dropdown-btn 2차 카테고리 선택
+                .dropdown-content.second_category(name="second_category_idx")
+              .col-md-4
+                label.form-label 가격
+                input.form-control.number_input(type="text", name="price")
+              .col-md-4 
+                label.form-label 부가세
+                input.form-control.number_input(type="text", name="tax")
+              .col-md-4 
+                label.form-label 총 가격
+                input.form-control.number_input(type="text", name="total_price")
+              .col-md-12 
+                input.form-check-input(type="checkbox", value="", name="use_yn")
+                label.form-check-label.ms-1.pointer(for="invalidCheck") 사용여부
+                input.form-check-input.ms-5(type="checkbox", value="", name="sold_out_yn")
+                label.form-check-label.ms-1.pointer(for="invalidCheck") 품절여부
+                input.form-check-input.ms-5(type="checkbox", value="", name="revealed_yn")
+                label.form-check-label.ms-1.pointer(for="invalidCheck") 노출 여부
+              .col-md-12
+                label.form-label 상품 이미지
+                  span.fw-lighter.fs-6.ms-2 ※ 이미지는 5개까지 등록 가능합니다.
+                .input-group
+                  input.form-control#file_input(aria-describedby="inputGroupFileAddon04", aria-label="Upload", type="file" , name="file",multiple)
+                  //- button#inputGroupFileAddon04.btn.btn-outline-secondary(type="button") 업로드
+              .img_area.container
+                .row
+                
+              .col-12
+                button.btn.btn-primary.write_btn(type="button") 등록
+  script(src="/javascript/admin/goods/write.js")   

@@ -194,3 +194,20 @@ async function customFetch(url,method,param){
   })
   return returnData;
 }
+
+async function customFormDataFetch(url,formData){
+  const returnData = await fetch(url,{
+    method : 'post'
+    ,body : formData
+  })
+  .then((res)=> res.json())
+  .then((res)=>{
+    res.promiseResult = true;
+    return res;
+  }).catch((err)=>{
+    console.log(err);
+    res.promiseResult = false;
+    return res;
+  })
+  return returnData;
+}

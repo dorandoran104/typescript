@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { JWTMiddleware } from "../../middleware/user/JWTMiddleware";
+import { JWTMiddleware } from "../../middleware/JWTMiddleware";
 import { CartController } from "../../controller/user/cart/Cartcontroller";
 
 const router:Router = Router();

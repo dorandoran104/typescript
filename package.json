@@ -7,7 +7,7 @@
     "start": "node dist/app.js",
     "dev": "nodemon src/app.ts",
     "build": "tsc -p ./tsconfig.json",
-    "swagger" : "swagger-typescript-api -p ./swagger.json -o ./src/api-client --axios --extract-request-body --extract-response-body --extract-response-error"
+    "swagger": "swagger-typescript-api -p ./swagger.json -o ./src/api-client --axios --extract-request-body --extract-response-body --extract-response-error"
   },
   "author": "",
   "license": "ISC",
@@ -19,6 +19,7 @@
     "firebase": "^10.14.0",
     "firebase-admin": "^12.6.0",
     "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
     "mybatis-mapper": "^0.8.0",
     "mysql2": "^3.11.3",
     "swagger-typescript-api": "^13.0.22"
@@ -29,6 +30,7 @@
     "@types/express": "^5.0.0",
     "@types/firebase": "^2.4.32",
     "@types/jsonwebtoken": "^9.0.7",
+    "@types/multer": "^1.4.12",
     "@types/node": "^22.7.4",
     "nodemon": "^3.1.7",
     "pug": "^3.0.3",

@@ -24,6 +24,11 @@ export const AdminCategoryController = {
   },
 
   process : {
+    /**
+     * insert
+     * @param req 
+     * @param res 
+     */
     write : async (req:Request,res:Response)=>{
       let resultObj:ResultObject = {result : false};
       try {
@@ -32,6 +37,19 @@ export const AdminCategoryController = {
         console.log(error);
         resultObj.result = false;
         resultObj.errMessage = '저장에 실패하였습니다.';
+      } finally {
+        res.json(resultObj);
+      }
+    },
+
+    getDescendantList : async (req:Request,res:Response)=>{
+      let resultObj:ResultObject = {result : false};
+      try {
+        resultObj = await AdminCategoryService.getDescendantList(req.body.ancestor_idx);
+      } catch (error) {
+        console.log(error);
+        resultObj.result = false;
+        resultObj.errMessage = '오류가 발생하였습니다.';
       } finally {
         res.json(resultObj);
       }

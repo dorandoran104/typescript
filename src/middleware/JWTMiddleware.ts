@@ -1,12 +1,12 @@
 import jwt from 'jsonwebtoken';
 import { JwtPayload } from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
-import { JWTUtil } from '../../util/JWTUtil';
-import { Member } from '../../interface/Member';
-import { MemberModel } from '../../models/MemberModel';
-import { EmployeeModel} from '../../models/EmployeeModel';
-import { Employee } from '../../interface/Employee';
-import { ResultObject } from '../../interface/ResultObject';
+import { JWTUtil } from '../util/JWTUtil';
+import { Member } from '../interface/Member';
+import { MemberModel } from '../models/MemberModel';
+import { EmployeeModel} from '../models/EmployeeModel';
+import { Employee } from '../interface/Employee';
+import { ResultObject } from '../interface/ResultObject';
 
 export const JWTMiddleware = {
   /**
@@ -109,11 +109,11 @@ export const JWTMiddleware = {
     }
     const accessToken = req.cookies.admin_access_token;
     const refreshToken = req.cookies.admin_refresh_token;
-     console.error("")
-      console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-      console.error('@@@@@@@@ 토큰 검증 @@@@@@@@@')
-      console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
-      console.error("")
+    console.error("")
+    console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    console.error('@@@@@@@@ 토큰 검증 @@@@@@@@@')
+    console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+    console.error("")
 
     if(accessToken == null || refreshToken == ''){
       console.error("")
@@ -167,7 +167,7 @@ export const JWTMiddleware = {
 
     try {
       JWTUtil.verifyAdminToken(accessToken);
-      next();
+      return next();
     } catch (error) {
       console.error("")
       console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
@@ -182,11 +182,10 @@ export const JWTMiddleware = {
         console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")
         console.error("")
         const newAccessToken = JWTUtil.createAdminToken(employee,'1h');
-        if(await EmployeeModel.update(employee)){
-          res.cookie('admin_access_token',newAccessToken);
-          return next();
-        }
-        return;
+        employee.access_token = newAccessToken;
+        await EmployeeModel.update(employee)
+        res.cookie('admin_access_token',newAccessToken);
+        return next();
       } catch (error) {
         console.error("")
         console.error("@@@@@@@@@@@@@@@@@@@@@@@@@@@")

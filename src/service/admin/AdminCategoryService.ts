@@ -5,6 +5,11 @@ import { Category } from "../../interface/Category";
 import { CategoryRelationship } from "../../interface/CategoryRelationship";
 
 export const AdminCategoryService = {
+  /**
+   * 카테고리 insert
+   * @param req 
+   * @returns 
+   */
   write : async (req:Request) =>{
     let resultObj:ResultObject = {result : false};
     let {first_category_idx, first_category_input, second_category_idx, second_category_input} = req.body;
@@ -44,6 +49,22 @@ export const AdminCategoryService = {
     }
 
     resultObj = await CategoryModel.insertAncestor(relationshipParam);
+    return resultObj;
+  },
+
+  /**
+   * 카테고리 뎁스 리스트
+   * @param depth 
+   */
+  getCategoryList : async (depth:number)=>{
+    let resultObj:ResultObject = await CategoryModel.depthList(depth);
+    const categoryList:Category[] = resultObj.data;
+    return categoryList;
+  },
+
+
+  getDescendantList : async (ancestor_idx:number)=>{
+    let resultObj:ResultObject = await CategoryModel.getDescendantList(ancestor_idx);
     return resultObj;
   }
 }
