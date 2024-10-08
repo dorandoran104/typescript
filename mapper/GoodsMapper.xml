@@ -45,4 +45,21 @@
     WHERE
       idx = #{idx}
   </update>
+
+  <select id="select">
+    SELECT
+      idx
+      ,code
+      ,name
+      ,total_price
+      ,sold_out_yn
+      ,file_idx
+    FROM goods
+    <where>
+      AND delete_yn = 'N'
+      <if test="category_idx != null and category_idx != ''">
+        AND first_category_idx = #{category_idx}
+      </if>
+    </where>
+
 </mapper>

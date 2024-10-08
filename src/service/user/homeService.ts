@@ -1,10 +1,10 @@
 import { Request,Response } from "express";
-import { Member } from "../../../interface/Member";
-import { RandomUtil } from '../../../util/RandomUtil';
-import { MemberModel } from "../../../models/MemberModel";
-import { ResultObject } from "../../../interface/ResultObject";
-import { BcryptUtil } from "../../../util/BcryptUtil";
-import { JWTUtil } from "../../../util/JWTUtil";
+import { Member } from "../../interface/Member";
+import { RandomUtil } from '../../util/RandomUtil';
+import { MemberModel } from "../../models/MemberModel";
+import { ResultObject } from "../../interface/ResultObject";
+import { BcryptUtil } from "../../util/BcryptUtil";
+import { JWTUtil } from "../../util/JWTUtil";
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const phoneRegex = /^01[016789]-?\d{3,4}-?\d{4}$/;

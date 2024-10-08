@@ -1,6 +1,6 @@
 import { Request, Response } from "express"
-import { homeService } from "../../../service/user/home/homeService";
-import { ResultObject } from "../../../interface/ResultObject";
+import { homeService } from "../../service/user/homeService";
+import { ResultObject } from "../../interface/ResultObject";
 
 
 /**

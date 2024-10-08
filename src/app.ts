@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 
 import HomeRouter from './routes/user/homeRoutes'
 import CartRouter from './routes/user/CartRoutes';
+import ProductRouter from './routes/user/ProductRoutes';
 
 import AdminHomeRouter from './routes/admin/AdminHomeRoutes';
 import AdminEmployeeRouter from './routes/admin/AdminEmployeeRoutes';
@@ -23,6 +24,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 app.use('/',HomeRouter);
 app.use('/cart',CartRouter);
+app.use('/product',ProductRouter);
 
 app.use('/admin',JWTMiddleware.checkAdminToken);
 app.use('/admin',AdminHomeRouter);
