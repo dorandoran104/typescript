@@ -1,0 +1,14 @@
+extends ../include/head
+
+block content 
+  .container 
+    .card_container
+      if list != null && list.length != 0
+        for product in list
+          .card.col-sm-3.pointer(data-code=product.code)
+            img.card-img-top(src=product.path)
+            .card-body
+              p.card-text.text-end=product.name
+              p.card-text.text-end=String(product.total_price).replace(/\B(?=(\d{3})+(?!\d))/g, ',')+'원'
+        
+  script(src="/javascript/user/product/list.js") 

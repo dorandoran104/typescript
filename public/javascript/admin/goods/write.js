@@ -128,7 +128,11 @@ write_btn.onclick = ()=>{
       customAlert('빈값이 존재합니다.',input);
       return false;
     }
-    formData.append(input.getAttribute('name'),input.value);
+    let value = input.value;
+    if(input.classList.contains('number_input')){
+      value = value.replaceAll(',','');
+    }
+    formData.append(input.getAttribute('name'),value);
   }
 
   const checkbox = section.querySelectorAll('input[type="checkbox"]');
