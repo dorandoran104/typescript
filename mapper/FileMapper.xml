@@ -14,4 +14,20 @@
       ,#{size}
     )
   </insert>
+
+  <select id="select">
+    SELECT
+      idx
+      ,real_name as original_name
+      ,save_name
+      ,REPLACE(CONCAT(path,save_name),'/public/image/','/images/') as path
+      ,size
+      ,regist_date
+    FROM file
+    <where>
+      <if test="idx != null and idx != ''">
+        AND idx = #{idx}
+      </if>
+    </where>
+  </select>
 </mapper>
