@@ -1,5 +1,5 @@
 export interface File {
-  idx : number
+  idx: number
   ,save_name : string
   ,original_name : string
   ,size : number

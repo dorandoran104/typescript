@@ -60,6 +60,9 @@
       <if test="category_idx != null and category_idx != ''">
         AND first_category_idx = #{category_idx}
       </if>
+      <if test="code != null and code != ''">
+        AND code = #{code}
+      </code>
     </where>
 
 </mapper>

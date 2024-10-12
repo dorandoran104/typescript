@@ -79,7 +79,8 @@ export const homeService = {
       resultObj.errMessage = '아이디 혹은 비밀번호를 확인해 주세요';
       return resultObj;
     }
-
+    console.log(body);
+    console.log(member.password);
     const comparePassword = await BcryptUtil.compareBcrypt(body.password,member.password);
     if(!comparePassword){
       resultObj.errMessage = '아이디 혹은 비밀번호를 확인해 주세요';

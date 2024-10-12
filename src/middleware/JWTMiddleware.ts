@@ -17,6 +17,8 @@ export const JWTMiddleware = {
    * @returns 
    */
   checkToken : async (req:Request,res:Response,next:NextFunction)=>{
+    // next();
+    // const authHeader = req.headers('authorization');
     console.log(req.cookies)
     const accessToken = req.cookies.access_token;
     const refreshToken = req.cookies.refresh_token;
@@ -28,8 +30,8 @@ export const JWTMiddleware = {
       console.error("")
       res.clearCookie('access_token');
       res.clearCookie('refresh_token');
-      res.redirect('/login')
-      return;
+      res.status(401);
+      return 
     }
     const decodeToken = JWTUtil.decodeToken(accessToken);
     let code = (decodeToken as JwtPayload).code as string;
@@ -41,8 +43,8 @@ export const JWTMiddleware = {
       console.error("")
       res.clearCookie('access_token');
       res.clearCookie('refresh_token');
-      res.redirect('/login')
-      return;
+      res.status(401);
+      return 
     }
 
     const member:Member = await MemberModel.selectCode(code);
@@ -54,8 +56,8 @@ export const JWTMiddleware = {
       console.error("")
       res.clearCookie('access_token');
       res.clearCookie('refresh_token');
-      res.redirect('/login')
-      return
+      res.status(401);
+      return 
     }
 
     try {
@@ -89,8 +91,8 @@ export const JWTMiddleware = {
         console.error("")
         res.clearCookie('access_token');
         res.clearCookie('refresh_token');
-        res.redirect('/login')
-        return;
+        res.status(401);
+        return 
       }
     }
   },
