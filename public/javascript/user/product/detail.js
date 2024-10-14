@@ -1,8 +1,11 @@
 const payment_button = document.querySelector('.payment');
 
 payment_button.onclick = async ()=>{
+  const path = window.location.pathname;
+  const parts = path.split('/');  
+  const param = parts[parts.length - 1];
 
-  let data = await customFetch('/payment','post',{});
+  let data = await customFetch('/payment','post',{code : param});
   if(data.promiseResult && data.result){
     const response = await PortOne.requestPayment({
       // Store ID 설정

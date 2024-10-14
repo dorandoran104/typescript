@@ -3,6 +3,7 @@ import {connect} from './index';
 import mybatis from '../config/mybatisConfig';
 import { ResultObject } from '../interface/ResultObject';
 import { Goods } from '../interface/Goods';
+import { GoodsDto } from '../dto/GoodsDto';
 
 export const GoodsModel = {
   exists : async (code:string)=>{
@@ -18,5 +19,10 @@ export const GoodsModel = {
   update : async (goods:mybatis.Params)=>{
     const sql = mybatis.getStatement('GoodsMapper','update',goods);
     return await connect(sql)
+  },
+
+  select : async (goods:GoodsDto)=>{
+    const sql = mybatis.getStatement('GoodsMapper','select',goods.toParams());
+    return (await connect(sql)).data[0] as GoodsDto;
   }
 }
