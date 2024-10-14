@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const AdminGoodsController_1 = require("../../controller/admin/AdminGoodsController");
+const FileMiddleWare_1 = require("../../middleware/FileMiddleWare");
+const router = (0, express_1.Router)();
+router.get('/', AdminGoodsController_1.AdminGoodsController.view.list);
+router.get('/write', AdminGoodsController_1.AdminGoodsController.view.write);
+router.post('/write', FileMiddleWare_1.FileMiddleWare.array('file'), AdminGoodsController_1.AdminGoodsController.process.write);
+exports.default = router;

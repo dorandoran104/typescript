@@ -9,56 +9,40 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AdminCategoryController = void 0;
+exports.AdminGoodsController = void 0;
+const AdminGoodsService_1 = require("../../service/admin/AdminGoodsService");
 const AdminCategoryService_1 = require("../../service/admin/AdminCategoryService");
-exports.AdminCategoryController = {
+exports.AdminGoodsController = {
     view: {
         /**
-         * 카테고리 리스트 페이지
+         * 상품 리스트
          * @param req
          * @param res
          */
         list: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-            res.render('admin/category/list');
+            res.render('admin/goods/list');
         }),
         /**
-         * 카테고리 작성 페이지
+         * 상품 등록 페이지
          * @param req
          * @param res
          */
         write: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-            res.render('admin/category/write');
+            let resultObj = { result: true };
+            const categoryList = yield AdminCategoryService_1.AdminCategoryService.getCategoryList(1);
+            resultObj.data = categoryList;
+            res.render('admin/goods/write', resultObj);
         })
     },
     process: {
-        /**
-         * insert
-         * @param req
-         * @param res
-         */
         write: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             let resultObj = { result: false };
             try {
-                resultObj = yield AdminCategoryService_1.AdminCategoryService.write(req);
+                resultObj = yield AdminGoodsService_1.AdminGoodsService.write(req);
             }
             catch (error) {
-                console.log(error);
                 resultObj.result = false;
                 resultObj.errMessage = '저장에 실패하였습니다.';
-            }
-            finally {
-                res.json(resultObj);
-            }
-        }),
-        getDescendantList: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-            let resultObj = { result: false };
-            try {
-                resultObj = yield AdminCategoryService_1.AdminCategoryService.getDescendantList(req.body.ancestor_idx);
-            }
-            catch (error) {
-                console.log(error);
-                resultObj.result = false;
-                resultObj.errMessage = '오류가 발생하였습니다.';
             }
             finally {
                 res.json(resultObj);

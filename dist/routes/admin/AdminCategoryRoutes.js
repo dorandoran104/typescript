@@ -6,4 +6,5 @@ const router = (0, express_1.Router)();
 router.get('/', AdminCategoryController_1.AdminCategoryController.view.list);
 router.get('/write', AdminCategoryController_1.AdminCategoryController.view.write);
 router.post('/write', AdminCategoryController_1.AdminCategoryController.process.write);
+router.post('/getDescendantList', AdminCategoryController_1.AdminCategoryController.process.getDescendantList);
 exports.default = router;

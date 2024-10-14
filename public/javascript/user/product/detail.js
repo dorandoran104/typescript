@@ -5,24 +5,39 @@ payment_button.onclick = async ()=>{
   const parts = path.split('/');  
   const param = parts[parts.length - 1];
 
-  let data = await customFetch('/payment','post',{code : param});
+  let codeArr = [param];
+
+  let data = await customFetch('/payment','post',{productArr : codeArr});
   if(data.promiseResult && data.result){
+    const returnData = data.data;
     const response = await PortOne.requestPayment({
-      // Store ID 설정
-      storeId: "store-297882d7-b2b2-4a9c-b6c2-6853f113a43e",
-      // 채널 키 설정
-      channelKey: "channel-key-4b7d2b79-7f9b-4579-9661-5a3393f45728",
-      paymentId: `payment-123123123}`,
-      orderName: "나이키 와플 트레이너 2 SD",
-      totalAmount: 1000,
+      storeId: returnData.store,
+      channelKey: returnData.channel,
+      paymentId: returnData.paymentId,
+      orderName: returnData.goodsName,
+      totalAmount: returnData.total_price,
       currency: "CURRENCY_KRW",
       payMethod: "CARD",
       customer : {
-        email : 'pgh_96@naver.com',
-        phoneNumber : '010-4447-0922',
-        fullName : '박건희'
+        email : returnData.email,
+        phoneNumber : returnData.mobile_number,
+        fullName : returnData.customer_name
       }
     });
+    console.log(response);
+
+    data = await customFetch('/payment/verification','post',response);
+    if(data.promiseResult && data.result){
+
+    }
+    if(!data.promiseResult || !data.result){
+      if(data.errMessage != null && data.errMessage != ''){
+        customAlert(data.errMessage);
+        return false;
+      }
+      customAlert('결제가 실패하였습니다.\n 관리자에게 문의해 주세요');
+      return false;
+    }
   }
   if(!data.promiseResult || !data.result){
     if(data.errMessage != null && data.errMessage != ''){

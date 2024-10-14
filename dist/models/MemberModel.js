@@ -46,7 +46,8 @@ exports.MemberModel = {
      * @returns
      */
     select: (member) => __awaiter(void 0, void 0, void 0, function* () {
-        const sql = mybatisConfig_1.default.getStatement('MemberMapper', 'select', member);
+        console.log(member.email);
+        const sql = mybatisConfig_1.default.getStatement('MemberMapper', 'select', member.toParams());
         const resultObj = yield (0, index_1.connect)(sql);
         return resultObj.data[0];
     }),

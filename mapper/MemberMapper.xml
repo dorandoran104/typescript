@@ -41,13 +41,13 @@
       ,refresh_token
     FROM member
     <where>
-      <if test="code != null and code != ''">
+      <if test="code != null and code != undefined ">
         AND code = #{code}
       </if>
-      <if test="email != null and email != ''">
+      <if test="email != null and email != undefined ">
         AND email = #{email}
       </if>
-      <if test="idx != null and idx != ''">
+      <if test="idx != null and idx != undefined ">
         AND idx = #{idx}
       </if>
     </where>

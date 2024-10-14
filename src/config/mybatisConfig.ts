@@ -7,6 +7,7 @@ mybatisMapper.createMapper([
   ,path.join(__dirname,'../../mapper/CategoryMapper.xml')
   ,path.join(__dirname,'../../mapper/FileMapper.xml')
   ,path.join(__dirname,'../../mapper/GoodsMapper.xml')
+  ,path.join(__dirname,'../../mapper/PaymentMapper.xml')
 ])
 
 export const format = { language: 'sql', indent: '  ' };
