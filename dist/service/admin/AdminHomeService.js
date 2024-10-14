@@ -31,7 +31,7 @@ exports.AdminHomeService = {
         }
         if (compare) {
             resultObj.result = compare;
-            employee.access_token = JWTUtil_1.JWTUtil.createAdminToken(employee, '1h');
+            employee.access_token = JWTUtil_1.JWTUtil.createAdminToken(employee, '1s');
             employee.refresh_token = JWTUtil_1.JWTUtil.createAdminToken(employee, '5d');
             if (yield EmployeeModel_1.EmployeeModel.update(employee)) {
                 res.cookie('admin_access_token', employee.access_token);

@@ -31,6 +31,11 @@ exports.AdminCategoryController = {
         })
     },
     process: {
+        /**
+         * insert
+         * @param req
+         * @param res
+         */
         write: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             let resultObj = { result: false };
             try {
@@ -40,6 +45,20 @@ exports.AdminCategoryController = {
                 console.log(error);
                 resultObj.result = false;
                 resultObj.errMessage = '저장에 실패하였습니다.';
+            }
+            finally {
+                res.json(resultObj);
+            }
+        }),
+        getDescendantList: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+            let resultObj = { result: false };
+            try {
+                resultObj = yield AdminCategoryService_1.AdminCategoryService.getDescendantList(req.body.ancestor_idx);
+            }
+            catch (error) {
+                console.log(error);
+                resultObj.result = false;
+                resultObj.errMessage = '오류가 발생하였습니다.';
             }
             finally {
                 res.json(resultObj);
