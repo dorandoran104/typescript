@@ -16,3 +16,5 @@ ERP / USER 페이지 구현해보기
     - access_token, refresh_token 사용
   - 회원가입
     - 비밀번호 bcrypt 인코딩 사용
+  - 상품구매
+    - 포트원 외부솔루션(pg대행사) 사용/이니시스 pg 사용

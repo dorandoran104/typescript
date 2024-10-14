@@ -9,7 +9,7 @@ block content
         h1.product-title= detail.name
         p.product-price= detail.total_price + ' 원'
         p.product-description= detail.description
-        button.btn.btn-primary.btn-lg(type="button") 구매하기
+        button.btn.btn-primary.btn-lg.payment(type="button") 구매하기
 
         //- 추가 정보 또는 리뷰 섹션
         h2 추가 정보
@@ -32,3 +32,4 @@ block content
 
         
   script(src="/javascript/user/product/detail.js") 
+  script(src="https://cdn.portone.io/v2/browser-sdk.js") 

@@ -31,9 +31,10 @@ export const ProductService = {
    */
   select : async(req:Request)=>{
     const code = req.params.code;
-    let goodsDto = new GoodsDto();
-    goodsDto.code = code;
-
+    let goodsDto = GoodsDto.Builder
+      .setCode(code)
+      .build();
+    
     goodsDto = await ProductModel.select(goodsDto);
 
     if(goodsDto.file_idx != null && goodsDto.file_idx != ''){

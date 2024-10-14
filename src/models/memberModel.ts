@@ -1,8 +1,8 @@
 import {connect} from './index';
 import { Member } from '../interface/Member';
 import mybatisMapper from '../config/mybatisConfig';
-import format from '../config/mybatisConfig';
 import { ResultObject } from '../interface/ResultObject';
+import { MemberDto } from '../dto/MemberDto';
 
 export const MemberModel = {
   /**
@@ -36,10 +36,11 @@ export const MemberModel = {
    * @param member 
    * @returns 
    */
-  select : async (member:Member)=>{
-    const sql = mybatisMapper.getStatement('MemberMapper','select',member);
+  select : async (member:MemberDto)=>{
+    console.log(member.email)
+    const sql = mybatisMapper.getStatement('MemberMapper','select',member.toParams());
     const resultObj:ResultObject = await connect(sql);
-    return resultObj.data[0];
+    return resultObj.data[0] as MemberDto;
   },
 
   /**

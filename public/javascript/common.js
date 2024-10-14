@@ -185,6 +185,10 @@ async function customFetch(url,method,param){
   })
   .then((res)=>res.json())
   .then((res)=>{
+    if(res.errMessage != null && res.errMessage === 'expire'){
+      location.href = '/login';
+      return false;
+    }
     res.promiseResult = true;
     return res;
   }).catch((err)=>{
@@ -192,6 +196,7 @@ async function customFetch(url,method,param){
     res.promiseResult = false;
     return res;
   })
+  // console.log(returnData.status)
   return returnData;
 }
 

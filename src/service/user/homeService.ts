@@ -5,6 +5,7 @@ import { MemberModel } from "../../models/MemberModel";
 import { ResultObject } from "../../interface/ResultObject";
 import { BcryptUtil } from "../../util/BcryptUtil";
 import { JWTUtil } from "../../util/JWTUtil";
+import { MemberDto } from "../../dto/MemberDto";
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const phoneRegex = /^01[016789]-?\d{3,4}-?\d{4}$/;
@@ -73,14 +74,15 @@ export const homeService = {
    */
   login : async (req:Request,res:Response)=>{
     let resultObj:ResultObject = {result : false};
-    const body:Member = req.body;
-    const member:Member = await MemberModel.select(body);
+    // const body:Member = req.body;
+    const body = MemberDto.Builder
+      .setEmail(req.body.email)
+      .build();
+    const member:MemberDto = await MemberModel.select(body);
     if(member == null){
       resultObj.errMessage = '아이디 혹은 비밀번호를 확인해 주세요';
       return resultObj;
     }
-    console.log(body);
-    console.log(member.password);
     const comparePassword = await BcryptUtil.compareBcrypt(body.password,member.password);
     if(!comparePassword){
       resultObj.errMessage = '아이디 혹은 비밀번호를 확인해 주세요';
