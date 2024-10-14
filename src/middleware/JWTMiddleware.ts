@@ -30,7 +30,7 @@ export const JWTMiddleware = {
       console.error("")
       res.clearCookie('access_token');
       res.clearCookie('refresh_token');
-      res.status(401);
+      res.status(401).send({result : false, errMessage : 'expire'});
       return 
     }
     const decodeToken = JWTUtil.decodeToken(accessToken);
@@ -43,7 +43,7 @@ export const JWTMiddleware = {
       console.error("")
       res.clearCookie('access_token');
       res.clearCookie('refresh_token');
-      res.status(401);
+      res.status(401).send({result : false, errMessage : 'expire'});
       return 
     }
 
@@ -56,7 +56,7 @@ export const JWTMiddleware = {
       console.error("")
       res.clearCookie('access_token');
       res.clearCookie('refresh_token');
-      res.status(401);
+      res.status(401).send({result : false, errMessage : 'expire'});
       return 
     }
 
@@ -91,7 +91,7 @@ export const JWTMiddleware = {
         console.error("")
         res.clearCookie('access_token');
         res.clearCookie('refresh_token');
-        res.status(401);
+        res.status(401).send({result : false, errMessage : 'expire'});
         return 
       }
     }
